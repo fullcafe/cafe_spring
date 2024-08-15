@@ -9,5 +9,4 @@ public class FullCafeSpringMavenApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(FullCafeSpringMavenApplication.class, args);
 	}
-	//1
 }

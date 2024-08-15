@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/fullCafe-spring-maven/fullCafe-spring-maven.iml" filepath="$PROJECT_DIR$/fullCafe-spring-maven/fullCafe-spring-maven.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/fullCafe-spring-maven.iml" filepath="$PROJECT_DIR$/.idea/fullCafe-spring-maven.iml" />
     </modules>
   </component>
 </project>
