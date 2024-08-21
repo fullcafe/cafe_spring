@@ -31,6 +31,15 @@ public class OpenApiConfig {
                 .build();
     }
 
+    @Bean
+    public GroupedOpenApi userGroup(){
+        return GroupedOpenApi.builder()
+                .group("user")
+                .addOpenApiCustomizer(openApi -> openApi.info(new Info().title("User API").version("2.6.0")))
+                .pathsToMatch("/register")
+                .build();
+    }
+
     // Scheme 정보
     @Bean
     public SecurityScheme securityScheme(){
