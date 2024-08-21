@@ -31,16 +31,6 @@ public class OpenApiConfig {
                 .build();
     }
 
-    // 테스트 그룹 헬로 2 설정
-    @Bean
-    public GroupedOpenApi hello2Group(){
-        return GroupedOpenApi.builder()
-                .group("hello2")
-                .addOpenApiCustomizer(openApi -> openApi.info(new Info().title("Hello2 API").version("2.6.0")))
-                .pathsToMatch("/hello/2")
-                .build();
-    }
-
     // Scheme 정보
     @Bean
     public SecurityScheme securityScheme(){
