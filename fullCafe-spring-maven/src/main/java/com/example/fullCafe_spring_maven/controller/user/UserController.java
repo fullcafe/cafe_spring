@@ -5,7 +5,10 @@ import com.example.fullCafe_spring_maven.service.user.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,12 +23,19 @@ public class UserController {
         this.userService = userService;
     }
 
+    @GetMapping("/user")
+    @Operation(summary = "retrieve",description = "retrieve user")
+    public User retrieveUser(Authentication auth){
+        String uid = (String)auth.getPrincipal();
+        return userService.findByUid(uid);
+    }
+
     @PostMapping("/register")
     @Operation(summary = "create", description = "create user")
-    public User createUser(@Valid @RequestBody User user, Authentication auth){
+    public ResponseEntity<User> createUser(@Valid @RequestBody User user, Authentication auth){
         user.setEmail(auth.getName());
         user.setUid((String)auth.getPrincipal());
         userService.createUser(user);
-        return user;
+        return new ResponseEntity<User>(user, HttpStatus.CREATED);
     }
 }
