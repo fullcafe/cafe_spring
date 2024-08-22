@@ -36,7 +36,7 @@ public class OpenApiConfig {
         return GroupedOpenApi.builder()
                 .group("user")
                 .addOpenApiCustomizer(openApi -> openApi.info(new Info().title("User API").version("2.6.0")))
-                .pathsToMatch("/register")
+                .pathsToMatch("/register","/user")
                 .build();
     }
 
