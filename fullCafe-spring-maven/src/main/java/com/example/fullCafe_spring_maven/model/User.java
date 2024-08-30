@@ -5,11 +5,17 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotNull;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.util.List;
 
 @Entity(name = "server_user")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class User {
     @GeneratedValue
     @Id
@@ -24,74 +30,6 @@ public class User {
     private int characterIdx;
     @OneToMany(mappedBy = "user")
     private List<Review> reviews;
-
-    public User() {
-    }
-
-    public User(int id, String uid, String email, String name, LocalDate birthday, int characterIdx) {
-        this.id = id;
-        this.uid = uid;
-        this.email = email;
-        this.name = name;
-        this.birthday = birthday;
-        this.characterIdx = characterIdx;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getUid() {
-        return uid;
-    }
-
-    public void setUid(String uid) {
-        this.uid = uid;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public LocalDate getBirthday() {
-        return birthday;
-    }
-
-    public void setBirthday(LocalDate birthday) {
-        this.birthday = birthday;
-    }
-
-    public int getCharacterIdx() {
-        return characterIdx;
-    }
-
-    public void setCharacterIdx(int characterIdx) {
-        this.characterIdx = characterIdx;
-    }
-
-    public List<Review> getReviews() {
-        return reviews;
-    }
-
-    public void setReviews(List<Review> reviews) {
-        this.reviews = reviews;
-    }
 
     @Override
     public String toString() {
