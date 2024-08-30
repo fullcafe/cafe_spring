@@ -3,9 +3,11 @@ package com.example.fullCafe_spring_maven.model;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity(name = "server_user")
 public class User {
@@ -20,6 +22,8 @@ public class User {
     private LocalDate birthday;
     @NotNull
     private int characterIdx;
+    @OneToMany(mappedBy = "user")
+    private List<Review> reviews;
 
     public User() {
     }
@@ -79,6 +83,14 @@ public class User {
 
     public void setCharacterIdx(int characterIdx) {
         this.characterIdx = characterIdx;
+    }
+
+    public List<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
     }
 
     @Override

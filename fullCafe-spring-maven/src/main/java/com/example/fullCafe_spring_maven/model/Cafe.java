@@ -8,7 +8,7 @@ import java.util.List;
 public class Cafe {
     @Id
     @Column(unique = true,nullable = false)
-    private String cafeName;
+    private String name;
     private String address;
     private String phone;
     private String url;
@@ -20,13 +20,15 @@ public class Cafe {
     private boolean parking;
     private boolean delivery;
     @OneToMany(mappedBy = "cafeName")
-    private List<CafeKeyword> keyword;
+    private List<CafeKeyword> keywords;
+    @OneToMany(mappedBy = "cafe")
+    private List<Review> reviews;
 
     public Cafe() {
     }
 
-    public Cafe(String cafeName, String address, String phone, String url, boolean petFriendly, boolean wifi, boolean takeout, boolean groupFriendly, boolean easyPayment, boolean parking, boolean delivery) {
-        this.cafeName = cafeName;
+    public Cafe(String name, String address, String phone, String url, boolean petFriendly, boolean wifi, boolean takeout, boolean groupFriendly, boolean easyPayment, boolean parking, boolean delivery) {
+        this.name = name;
         this.address = address;
         this.phone = phone;
         this.url = url;
@@ -39,12 +41,12 @@ public class Cafe {
         this.delivery = delivery;
     }
 
-    public String getCafeName() {
-        return cafeName;
+    public String getName() {
+        return name;
     }
 
-    public void setCafeName(String cafeName) {
-        this.cafeName = cafeName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getAddress() {
@@ -127,18 +129,26 @@ public class Cafe {
         this.delivery = delivery;
     }
 
-    public List<CafeKeyword> getKeyword() {
-        return keyword;
+    public List<CafeKeyword> getKeywords() {
+        return keywords;
     }
 
-    public void setKeyword(List<CafeKeyword> keyword) {
-        this.keyword = keyword;
+    public void setKeywords(List<CafeKeyword> keywords) {
+        this.keywords = keywords;
+    }
+
+    public List<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
     }
 
     @Override
     public String toString() {
         return "Cafe{" +
-                "cafeName='" + cafeName + '\'' +
+                "cafeName='" + name + '\'' +
                 ", address='" + address + '\'' +
                 ", phone='" + phone + '\'' +
                 ", url='" + url + '\'' +
