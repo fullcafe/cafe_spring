@@ -1,85 +1,33 @@
 package com.example.fullCafe_spring_maven.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.validation.constraints.NotNull;
+import jakarta.persistence.*;
+import lombok.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity(name = "server_user")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class User {
     @GeneratedValue
     @Id
     private int id;
+    @Column(nullable = false)
     private String uid;
+    @Column(nullable = false)
     private String email;
-    @NotNull
+    @Column(nullable = false)
     private String name;
-    @NotNull
+    @Column(nullable = false)
     private LocalDate birthday;
-    @NotNull
+    @Column(nullable = false)
     private int characterIdx;
-
-    public User() {
-    }
-
-    public User(int id, String uid, String email, String name, LocalDate birthday, int characterIdx) {
-        this.id = id;
-        this.uid = uid;
-        this.email = email;
-        this.name = name;
-        this.birthday = birthday;
-        this.characterIdx = characterIdx;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getUid() {
-        return uid;
-    }
-
-    public void setUid(String uid) {
-        this.uid = uid;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public LocalDate getBirthday() {
-        return birthday;
-    }
-
-    public void setBirthday(LocalDate birthday) {
-        this.birthday = birthday;
-    }
-
-    public int getCharacterIdx() {
-        return characterIdx;
-    }
-
-    public void setCharacterIdx(int characterIdx) {
-        this.characterIdx = characterIdx;
-    }
+    @OneToMany(mappedBy = "user")
+    private List<Review> reviews;
 
     @Override
     public String toString() {

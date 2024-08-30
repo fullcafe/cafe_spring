@@ -1,6 +1,8 @@
 package com.example.fullCafe_spring_maven.service.user;
 
 import com.example.fullCafe_spring_maven.model.User;
+import com.example.fullCafe_spring_maven.model.dto.RequestCreateUserDto;
+import com.example.fullCafe_spring_maven.model.dto.ResponseSimpleUserDto;
 import com.example.fullCafe_spring_maven.repository.user.UserRepository;
 import org.springframework.stereotype.Service;
 
@@ -14,16 +16,23 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public void createUser(User user){
+    public void createUser(RequestCreateUserDto requestCreateUserDto){
+        User user = User.builder()
+                .uid(requestCreateUserDto.getUid())
+                .email(requestCreateUserDto.getEmail())
+                .name(requestCreateUserDto.getName())
+                .birthday(requestCreateUserDto.getBirthday())
+                .characterIdx(requestCreateUserDto.getCharacterIdx())
+                .build();
         userRepository.save(user);
     }
 
-    public User findByUid(String uid) {
+    public ResponseSimpleUserDto findByUid(String uid) {
         Optional<User> user = userRepository.findByUid(uid);
         if(user.isEmpty()){
             throw new UserNotFoundException("유저를 찾을 수 없습니다.");
         }
-
-        return user.get();
+        User gettedUser = user.get();
+        return new ResponseSimpleUserDto(gettedUser);
     }
 }
