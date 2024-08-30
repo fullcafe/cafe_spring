@@ -1,10 +1,6 @@
 package com.example.fullCafe_spring_maven.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.validation.constraints.NotNull;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -20,13 +16,15 @@ public class User {
     @GeneratedValue
     @Id
     private int id;
+    @Column(nullable = false)
     private String uid;
+    @Column(nullable = false)
     private String email;
-    @NotNull
+    @Column(nullable = false)
     private String name;
-    @NotNull
+    @Column(nullable = false)
     private LocalDate birthday;
-    @NotNull
+    @Column(nullable = false)
     private int characterIdx;
     @OneToMany(mappedBy = "user")
     private List<Review> reviews;
