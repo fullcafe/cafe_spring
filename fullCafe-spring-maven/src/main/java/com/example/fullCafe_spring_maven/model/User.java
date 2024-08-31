@@ -12,10 +12,9 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@EqualsAndHashCode
 public class User {
-    @GeneratedValue
     @Id
-    private int id;
     @Column(nullable = false)
     private String uid;
     @Column(nullable = false)
@@ -32,12 +31,12 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-                "id=" + id +
-                ", uid='" + uid + '\'' +
+                "uid='" + uid + '\'' +
                 ", email='" + email + '\'' +
                 ", name='" + name + '\'' +
                 ", birthday=" + birthday +
                 ", characterIdx=" + characterIdx +
+                ", reviews=" + reviews +
                 '}';
     }
 }

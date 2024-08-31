@@ -19,5 +19,4 @@ public class RequestCreateUserDto {
     private LocalDate birthday;
     @NotNull
     private Integer characterIdx;
-
 }

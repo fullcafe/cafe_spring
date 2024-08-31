@@ -1,12 +1,12 @@
 package com.example.fullCafe_spring_maven.controller.user;
 
-import com.example.fullCafe_spring_maven.model.User;
 import com.example.fullCafe_spring_maven.model.dto.RequestCreateUserDto;
 import com.example.fullCafe_spring_maven.model.dto.ResponseSimpleUserDto;
 import com.example.fullCafe_spring_maven.service.user.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -16,14 +16,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequiredArgsConstructor
 @Tag(name = "User",description = "Controller with User")
 public class UserController {
 
-    UserService userService;
-
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
+    private final UserService userService;
 
     @GetMapping("/user")
     @Operation(summary = "retrieve",description = "retrieve user")
