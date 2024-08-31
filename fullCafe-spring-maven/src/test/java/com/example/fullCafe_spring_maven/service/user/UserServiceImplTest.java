@@ -24,10 +24,10 @@ import static org.junit.jupiter.api.Assertions.*;
 @ExtendWith(SpringExtension.class)
 class UserServiceImplTest {
 
-    UserService userService;
+    private UserService userService;
     @MockBean
-    UserRepository userRepository;
-    User user = User.builder()
+    private UserRepository userRepository;
+    private final User user = User.builder()
             .uid("uid")
             .email("email")
             .name("name")
@@ -41,7 +41,7 @@ class UserServiceImplTest {
     }
 
     @Test
-    @DisplayName("유저 생성")
+    @DisplayName("유저 생성 - 서비스")
     void createUser() {
         // given
         RequestCreateUserDto userDto = new RequestCreateUserDto(
@@ -54,7 +54,7 @@ class UserServiceImplTest {
     }
 
     @Test
-    @DisplayName("Uid로 유저 찾기")
+    @DisplayName("Uid로 유저 찾기 - 서비스")
     void findByUid() {
         // given
         Optional<User> optionalUser = Optional.ofNullable(user);
