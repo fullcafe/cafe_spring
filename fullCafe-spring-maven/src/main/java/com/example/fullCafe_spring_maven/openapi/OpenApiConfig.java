@@ -39,6 +39,14 @@ public class OpenApiConfig {
                 .pathsToMatch("/register","/user")
                 .build();
     }
+    @Bean
+    public GroupedOpenApi reviewGroup(){
+        return GroupedOpenApi.builder()
+                .group("review")
+                .addOpenApiCustomizer(openApi -> openApi.info(new Info().title("Review API").version("2.6.0")))
+                .pathsToMatch("/review")
+                .build();
+    }
 
     // Scheme 정보
     @Bean
