@@ -5,17 +5,22 @@ import com.example.fullCafe_spring_maven.model.Review;
 import com.example.fullCafe_spring_maven.model.User;
 import com.example.fullCafe_spring_maven.model.dto.review.SimpleReviewDto;
 import com.example.fullCafe_spring_maven.model.dto.user.ResponseSimpleUserDto;
+import com.example.fullCafe_spring_maven.service.cafe.CafeNotFoundException;
 import com.example.fullCafe_spring_maven.service.cafe.CafeService;
 import com.example.fullCafe_spring_maven.service.user.UserNotFoundException;
 import com.example.fullCafe_spring_maven.service.user.UserService;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.time.LocalDate;
 import java.util.List;
 
+@ExtendWith(SpringExtension.class)
 class ReviewIntegrationServiceImplTest {
     private ReviewIntegrationService reviewIntegrationService;
     @MockBean
@@ -54,19 +59,26 @@ class ReviewIntegrationServiceImplTest {
         );
     }
     @Test
+    @DisplayName("리뷰 통합 생성 - 서비스")
     void createReview() {
         //given
         SimpleReviewDto reviewDto = new SimpleReviewDto(review);
-        Mockito.when(userService.findSimpleUserByUid(user.getUid())).thenReturn(new ResponseSimpleUserDto(user));
-        Mockito.when(userService.findSimpleUserByUid(Mockito.argThat(uid -> !uid.equals(user.getUid()))))
+        Mockito.when(userService.findUserByUid(user.getUid())).thenReturn(user);
+        Mockito.when(userService.findUserByUid(Mockito.argThat(uid -> !uid.equals(user.getUid()))))
                 .thenThrow(new UserNotFoundException("유저를 찾을 수 없음"));
-        //when
+        Mockito.when(cafeService.findCafeByCafeName(cafe.getName())).thenReturn(cafe);
+        Mockito.when(cafeService.findCafeByCafeName(Mockito.argThat(name -> !name.equals(cafe.getName()))))
+                .thenThrow(new CafeNotFoundException("카페를 찾을 수 없음"));
+        // 제대로 리뷰 만듦
         reviewIntegrationService.createReview(reviewDto);
+        // 유저 못들고옴
+        SimpleReviewDto reviewDto1 = new SimpleReviewDto(review);
+        reviewDto1.setUid("이상한 유저 값");
+
+        // 카페 못들고옴
     }
 }
 /*
- 카페 들고옴, 유저 들고옴 -> 여기서 못들고올 가능성
- 들고온 것 기반으로 크레이트
  dto 2개 (심플한 dto) (심플dto,카페심플dto,유저심플dto)
 
  유저 id -> 전부 다 들고옴
