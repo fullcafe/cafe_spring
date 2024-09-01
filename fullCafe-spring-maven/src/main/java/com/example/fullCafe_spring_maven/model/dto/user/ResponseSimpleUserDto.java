@@ -1,4 +1,4 @@
-package com.example.fullCafe_spring_maven.model.dto;
+package com.example.fullCafe_spring_maven.model.dto.user;
 
 import com.example.fullCafe_spring_maven.model.User;
 import lombok.AllArgsConstructor;

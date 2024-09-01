@@ -1,7 +1,7 @@
 package com.example.fullCafe_spring_maven.controller.user;
 
-import com.example.fullCafe_spring_maven.model.dto.RequestCreateUserDto;
-import com.example.fullCafe_spring_maven.model.dto.ResponseSimpleUserDto;
+import com.example.fullCafe_spring_maven.model.dto.user.RequestCreateUserDto;
+import com.example.fullCafe_spring_maven.model.dto.user.ResponseSimpleUserDto;
 import com.example.fullCafe_spring_maven.service.user.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -26,7 +26,7 @@ public class UserController {
     @Operation(summary = "retrieve",description = "retrieve user")
     public ResponseSimpleUserDto retrieveUser(Authentication auth){
         String uid = (String)auth.getPrincipal();
-        return userService.findByUid(uid);
+        return userService.findSimpleUserByUid(uid);
     }
 
     @PostMapping("/register")

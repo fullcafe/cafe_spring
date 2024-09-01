@@ -16,14 +16,21 @@ public class Review {
     @Id
     @GeneratedValue
     private int id;
+    @Column(nullable = false)
     private int numOfStar;
+    @Column(nullable = false)
     private List<String> who;
+    @Column(nullable = false)
     private List<String> convenient;
+    @Column(nullable = false)
     private List<String> object;
+    @Column(nullable = false)
     private String content;
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "uid", nullable = false)
     private User user;
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "cafeName", nullable = false)
     private Cafe cafe;
 
     @Override

@@ -1,4 +1,4 @@
-package com.example.fullCafe_spring_maven.model.dto;
+package com.example.fullCafe_spring_maven.model.dto.user;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
