@@ -12,7 +12,6 @@ import java.util.List;
 @Builder
 public class SimpleReviewDto {
     private int id;
-    @NotNull
     private int numOfStar;
     @NotNull
     private List<String> who;
