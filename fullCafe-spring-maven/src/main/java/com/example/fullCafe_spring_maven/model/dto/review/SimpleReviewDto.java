@@ -29,7 +29,7 @@ public class SimpleReviewDto {
 
     public SimpleReviewDto(Review review){
         this.id = review.getId();
-        this.numOfStar = getNumOfStar();
+        this.numOfStar = review.getNumOfStar();
         this.who = review.getWho();
         this.convenient = review.getConvenient();
         this.object = review.getObject();
