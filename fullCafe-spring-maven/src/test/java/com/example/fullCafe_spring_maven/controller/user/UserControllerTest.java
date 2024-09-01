@@ -50,8 +50,8 @@ class UserControllerTest {
     @Test
     @DisplayName("retrieve 유저 - 컨트롤러")
     void retrieveUser() throws Exception {
-        Mockito.when(userService.findByUid(user.getUid())).thenReturn(new ResponseSimpleUserDto(user));
-        Mockito.when(userService.findByUid(Mockito.argThat(uid -> !uid.equals(user.getUid()))))
+        Mockito.when(userService.findSimpleUserByUid(user.getUid())).thenReturn(new ResponseSimpleUserDto(user));
+        Mockito.when(userService.findSimpleUserByUid(Mockito.argThat(uid -> !uid.equals(user.getUid()))))
                         .thenThrow(new UserNotFoundException("유저를 찾을 수 없음"));
         // 정상적으로 가져옴
         mvc.perform(get("/user")

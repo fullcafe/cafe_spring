@@ -16,8 +16,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import java.time.LocalDate;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class ReviewIntegrationServiceImplTest {
     private ReviewIntegrationService reviewIntegrationService;
     @MockBean
@@ -59,8 +57,8 @@ class ReviewIntegrationServiceImplTest {
     void createReview() {
         //given
         SimpleReviewDto reviewDto = new SimpleReviewDto(review);
-        Mockito.when(userService.findByUid(user.getUid())).thenReturn(new ResponseSimpleUserDto(user));
-        Mockito.when(userService.findByUid(Mockito.argThat(uid -> !uid.equals(user.getUid()))))
+        Mockito.when(userService.findSimpleUserByUid(user.getUid())).thenReturn(new ResponseSimpleUserDto(user));
+        Mockito.when(userService.findSimpleUserByUid(Mockito.argThat(uid -> !uid.equals(user.getUid()))))
                 .thenThrow(new UserNotFoundException("유저를 찾을 수 없음"));
         //when
         reviewIntegrationService.createReview(reviewDto);

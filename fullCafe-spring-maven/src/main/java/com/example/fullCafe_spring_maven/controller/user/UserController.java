@@ -26,7 +26,7 @@ public class UserController {
     @Operation(summary = "retrieve",description = "retrieve user")
     public ResponseSimpleUserDto retrieveUser(Authentication auth){
         String uid = (String)auth.getPrincipal();
-        return userService.findByUid(uid);
+        return userService.findSimpleUserByUid(uid);
     }
 
     @PostMapping("/register")

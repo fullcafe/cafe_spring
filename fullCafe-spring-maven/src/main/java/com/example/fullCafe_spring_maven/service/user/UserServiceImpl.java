@@ -26,12 +26,16 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
     }
 
-    public ResponseSimpleUserDto findByUid(String uid) {
+    public User findUserByUid(String uid){
         Optional<User> user = userRepository.findById(uid);
         if(user.isEmpty()){
             throw new UserNotFoundException("유저를 찾을 수 없습니다.");
         }
-        User gettedUser = user.get();
-        return new ResponseSimpleUserDto(gettedUser);
+        return user.get();
+    }
+
+    public ResponseSimpleUserDto findSimpleUserByUid(String uid) {
+        User user = findUserByUid(uid);
+        return new ResponseSimpleUserDto(user);
     }
 }
