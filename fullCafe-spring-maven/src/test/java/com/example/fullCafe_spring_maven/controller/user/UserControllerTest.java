@@ -2,13 +2,12 @@ package com.example.fullCafe_spring_maven.controller.user;
 
 import com.example.fullCafe_spring_maven.firebase.FirebaseAuthentication;
 import com.example.fullCafe_spring_maven.model.User;
-import com.example.fullCafe_spring_maven.model.dto.RequestCreateUserDto;
-import com.example.fullCafe_spring_maven.model.dto.ResponseSimpleUserDto;
+import com.example.fullCafe_spring_maven.model.dto.user.RequestCreateUserDto;
+import com.example.fullCafe_spring_maven.model.dto.user.ResponseSimpleUserDto;
 import com.example.fullCafe_spring_maven.security.SpringSecurityConfigurationTest;
 import com.example.fullCafe_spring_maven.service.user.UserNotFoundException;
 import com.example.fullCafe_spring_maven.service.user.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -19,11 +18,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
-import org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers;
-import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
 
 import java.time.LocalDate;
 
@@ -37,10 +32,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Import(SpringSecurityConfigurationTest.class)
 class UserControllerTest {
     @Autowired
-    private WebApplicationContext webApplicationContext;
     private MockMvc mvc;
-    @Autowired
-    private SecurityFilterChain filterChain;
     @MockBean
     private UserService userService;
     @Autowired
@@ -54,13 +46,6 @@ class UserControllerTest {
             .characterIdx(0)
             .build();
     private final Authentication authentication = new FirebaseAuthentication(user.getEmail(),user.getUid(),true);
-
-    @BeforeEach
-    void setup(){
-        mvc = MockMvcBuilders.webAppContextSetup(webApplicationContext)
-                .apply(SecurityMockMvcConfigurers.springSecurity())
-                .build();
-    }
 
     @Test
     @DisplayName("retrieve 유저 - 컨트롤러")

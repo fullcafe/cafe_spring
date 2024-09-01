@@ -1,8 +1,8 @@
 package com.example.fullCafe_spring_maven.service.user;
 
 import com.example.fullCafe_spring_maven.model.User;
-import com.example.fullCafe_spring_maven.model.dto.RequestCreateUserDto;
-import com.example.fullCafe_spring_maven.model.dto.ResponseSimpleUserDto;
+import com.example.fullCafe_spring_maven.model.dto.user.RequestCreateUserDto;
+import com.example.fullCafe_spring_maven.model.dto.user.ResponseSimpleUserDto;
 import com.example.fullCafe_spring_maven.repository.user.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -14,8 +14,6 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-
-import javax.swing.*;
 
 import java.time.LocalDate;
 import java.util.Optional;
@@ -58,7 +56,7 @@ class UserServiceImplTest {
     void findByUid() {
         // given
         Optional<User> optionalUser = Optional.ofNullable(user);
-        Mockito.when(userRepository.findByUid(user.getUid())).thenReturn(optionalUser);
+        Mockito.when(userRepository.findById(user.getUid())).thenReturn(optionalUser);
         // uid 존재
         ResponseSimpleUserDto userDto = userService.findByUid(user.getUid());
         assertEquals(userDto, new ResponseSimpleUserDto(user));
