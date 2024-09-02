@@ -26,9 +26,9 @@ public class Cafe {
     private boolean easyPayment;
     private boolean parking;
     private boolean delivery;
-    @OneToMany(mappedBy = "cafeName")
+    @OneToMany(mappedBy = "cafeName",fetch = FetchType.EAGER)
     private List<CafeKeyword> keywords;
-    @OneToMany(mappedBy = "cafe")
+    @OneToMany(mappedBy = "cafe",fetch = FetchType.LAZY)
     private List<Review> reviews;
 
     @Override

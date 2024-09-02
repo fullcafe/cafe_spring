@@ -90,6 +90,15 @@ class ReviewIntegrationServiceImplTest {
             reviewIntegrationService.createReview(reviewDto2);
         });
     }
+
+    @Test
+    void findReviewsByUser(){
+        // 그 리뷰를 적당히 포장해서 반환하면 됨.(uid, 심플정보,카페정보)
+
+        // 유저를 못 들고옴
+        // 리뷰를 못들고옴
+        // 성공
+    }
 }
 /*
  dto 2개 (심플한 dto) (심플dto,카페심플dto,유저심플dto)

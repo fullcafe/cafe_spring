@@ -29,10 +29,10 @@ public class Review {
     private String content;
     @Column(nullable = false)
     private LocalDateTime timestamp;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "uid", nullable = false)
     private User user;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "cafeName", nullable = false)
     private Cafe cafe;
 

@@ -25,7 +25,7 @@ public class User {
     private LocalDate birthday;
     @Column(nullable = false)
     private int characterIdx;
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user",fetch = FetchType.LAZY)
     private List<Review> reviews;
 
     @Override
