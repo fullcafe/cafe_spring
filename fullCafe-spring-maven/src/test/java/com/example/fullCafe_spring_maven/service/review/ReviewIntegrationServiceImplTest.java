@@ -17,6 +17,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.mockito.Mockito.times;
@@ -51,6 +52,7 @@ class ReviewIntegrationServiceImplTest {
             .convenient(List.of("편의시설"))
             .object(List.of("목적"))
             .content("내용")
+            .timestamp(LocalDateTime.now())
             .user(user)
             .cafe(cafe)
             .build();
@@ -87,6 +89,15 @@ class ReviewIntegrationServiceImplTest {
         assertThrows(CafeNotFoundException.class,()->{
             reviewIntegrationService.createReview(reviewDto2);
         });
+    }
+
+    @Test
+    void findReviewsByUser(){
+        // 그 리뷰를 적당히 포장해서 반환하면 됨.(uid, 심플정보,카페정보)
+
+        // 유저를 못 들고옴
+        // 리뷰를 못들고옴
+        // 성공
     }
 }
 /*

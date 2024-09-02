@@ -18,6 +18,7 @@ class SimpleReviewDtoTest {
         assertEquals(reviewDto.getId(),0);
         assertNull(reviewDto.getObject());
         assertNull(reviewDto.getContent());
+        assertNull(reviewDto.getTimestamp());
         assertNull(reviewDto.getUid());
 
         // 유저(카페)가 존재할 때

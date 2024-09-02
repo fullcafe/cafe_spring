@@ -20,6 +20,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -43,6 +44,7 @@ class ReviewControllerTest {
             .convenient(List.of("편의시설"))
             .object(List.of("목적"))
             .content("내용")
+            .timestamp(LocalDateTime.now())
             .build();
     @Test
     @DisplayName("리뷰 생성 - 컨트롤러")
