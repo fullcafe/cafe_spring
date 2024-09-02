@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity(name = "server_user")
@@ -27,7 +28,8 @@ public class User {
     private int characterIdx;
     @OneToMany(mappedBy = "user",fetch = FetchType.LAZY)
     private List<Review> reviews;
-
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Bookmark> bookmarks = new ArrayList<>();
     @Override
     public String toString() {
         return "User{" +
