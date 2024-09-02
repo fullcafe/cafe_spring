@@ -3,6 +3,8 @@ package com.example.fullCafe_spring_maven.service.review;
 import com.example.fullCafe_spring_maven.model.Cafe;
 import com.example.fullCafe_spring_maven.model.Review;
 import com.example.fullCafe_spring_maven.model.User;
+import com.example.fullCafe_spring_maven.model.dto.cafe.SimpleCafeDto;
+import com.example.fullCafe_spring_maven.model.dto.review.ComplexReviewDto;
 import com.example.fullCafe_spring_maven.model.dto.review.SimpleReviewDto;
 import com.example.fullCafe_spring_maven.service.cafe.CafeNotFoundException;
 import com.example.fullCafe_spring_maven.service.cafe.CafeService;
@@ -93,20 +95,31 @@ class ReviewIntegrationServiceImplTest {
 
     @Test
     void findReviewsByUser(){
-        // 그 리뷰를 적당히 포장해서 반환하면 됨.(uid, 심플정보,카페정보)
-
+        // given
+        Mockito.when(userService.findUserByUid(user.getUid())).thenReturn(user);
+        Mockito.when(userService.findUserByUid(Mockito.argThat(uid -> !uid.equals(user.getUid()))))
+                .thenThrow(new UserNotFoundException("유저를 찾을 수 없음"));
         // 유저를 못 들고옴
-        // 리뷰를 못들고옴
-        // 성공
+        assertThrows(UserNotFoundException.class,()->{
+            reviewIntegrationService.findReviewsByUser("이상한 값");
+        });
+        // 리뷰가 없음(빈 리스트를 들고옴)
+        List<ComplexReviewDto> reviewDtos = reviewIntegrationService.findReviewsByUser(user.getUid());
+        assertEquals(reviewDtos,List.of());
+        // 성공(complexDto 리스트를 들고옴)
+        user.setReviews(List.of(review));
+        List<ComplexReviewDto> reviewDtos1 = reviewIntegrationService.findReviewsByUser(user.getUid());
+        ComplexReviewDto complexReviewDto = ComplexReviewDto.builder()
+                .uid(user.getUid())
+                .name(user.getName())
+                .reviewDto(new SimpleReviewDto(review))
+                .cafeDto(new SimpleCafeDto(cafe))
+                .build();
+        assertEquals(reviewDtos1,List.of(complexReviewDto));
     }
 }
 /*
  dto 2개 (심플한 dto) (심플dto,카페심플dto,유저심플dto)
-
- 유저 id -> 전부 다 들고옴
- uid랑 리뷰 리스트만 보내주면 됨
- 리뷰 알갱이 및 카페 정보까지 필요함
- dto 1개(uid,리스트)
 
  카페 id -> 전부 다 들고옴
  카페정보 및 리뷰 2개 정도
