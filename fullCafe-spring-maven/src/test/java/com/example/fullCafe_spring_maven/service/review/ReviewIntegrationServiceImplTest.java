@@ -94,6 +94,7 @@ class ReviewIntegrationServiceImplTest {
     }
 
     @Test
+    @DisplayName("유저로 부터 리뷰 조회 - 서비스")
     void findReviewsByUser(){
         // given
         Mockito.when(userService.findUserByUid(user.getUid())).thenReturn(user);
