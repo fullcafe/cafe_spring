@@ -26,6 +26,7 @@ public class ReviewIntegrationServiceImpl implements ReviewIntegrationService {
                 .convenient(reviewDto.getConvenient())
                 .object(reviewDto.getObject())
                 .content(reviewDto.getContent())
+                .timestamp(reviewDto.getTimestamp())
                 .user(user)
                 .cafe(cafe)
                 .build();

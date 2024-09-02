@@ -4,6 +4,7 @@ import com.example.fullCafe_spring_maven.model.Review;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -22,6 +23,8 @@ public class SimpleReviewDto {
     @NotNull
     private String content;
     @NotNull
+    private LocalDateTime timestamp;
+    @NotNull
     private String uid;
     @NotNull
     private String cafeName;
@@ -33,6 +36,7 @@ public class SimpleReviewDto {
         this.convenient = review.getConvenient();
         this.object = review.getObject();
         this.content = review.getContent();
+        this.timestamp = review.getTimestamp();
         if(review.getUser() != null){
             this.uid = review.getUser().getUid();
         }

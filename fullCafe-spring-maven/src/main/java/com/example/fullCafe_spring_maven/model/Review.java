@@ -3,6 +3,7 @@ package com.example.fullCafe_spring_maven.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -26,6 +27,8 @@ public class Review {
     private List<String> object;
     @Column(nullable = false)
     private String content;
+    @Column(nullable = false)
+    private LocalDateTime timestamp;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "uid", nullable = false)
     private User user;

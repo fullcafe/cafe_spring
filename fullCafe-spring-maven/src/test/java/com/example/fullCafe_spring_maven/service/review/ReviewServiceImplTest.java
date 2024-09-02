@@ -12,6 +12,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.mockito.Mockito.times;
@@ -42,6 +43,7 @@ class ReviewServiceImplTest {
             .convenient(List.of("편의시설"))
             .object(List.of("목적"))
             .content("내용")
+            .timestamp(LocalDateTime.now())
             .user(user)
             .cafe(cafe)
             .build();
