@@ -31,9 +31,8 @@ public class Cafe {
     private List<CafeKeyword> keywords;
     @OneToMany(mappedBy = "cafe",fetch = FetchType.LAZY)
     private List<Review> reviews;
-    // 이거 빨간줄 떠서 일단 주석 처리
-//    @OneToMany(mappedBy = "cafe", cascade = CascadeType.ALL, orphanRemoval = true)
-//    private List<Bookmark> bookmarks = new ArrayList<>();
+    @OneToMany(mappedBy = "cafe", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Bookmark> bookmarks = new ArrayList<>();
 
     @Override
     public String toString() {
