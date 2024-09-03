@@ -27,6 +27,7 @@ public class ReviewController {
     }
 
     @GetMapping("/reviews/{uid}")
+    @Operation(summary = "retrieve",description = "retrieve reviews by user")
     public List<ComplexReviewDto> retrieveReviewsByUser(@PathVariable String uid){
         return reviewIntegrationService.findReviewsByUser(uid);
     }
