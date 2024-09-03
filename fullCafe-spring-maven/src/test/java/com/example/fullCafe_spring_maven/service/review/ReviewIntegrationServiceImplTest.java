@@ -134,7 +134,7 @@ class ReviewIntegrationServiceImplTest {
         // 리뷰 못들오곰(빈리스트)
         List<ComplexReviewDto> reviewDtos = reviewIntegrationService.findReviewsByCafe(cafe.getName());
         assertEquals(reviewDtos,List.of());
-        // 유저 못 들고옴(유저 정보 공란)
+        // 유저 못 들고옴(유저 정보 null)
         review.setUser(null);
         cafe.setReviews(List.of(review));
         List<ComplexReviewDto> reviewDtos1 = reviewIntegrationService.findReviewsByCafe(cafe.getName());

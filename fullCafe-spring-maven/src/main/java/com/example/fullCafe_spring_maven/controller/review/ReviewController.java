@@ -26,9 +26,15 @@ public class ReviewController {
         return new ResponseEntity<SimpleReviewDto>(reviewDto, HttpStatus.CREATED);
     }
 
-    @GetMapping("/reviews/{uid}")
+    @GetMapping("/reviews/user/{uid}")
     @Operation(summary = "retrieve",description = "retrieve reviews by user")
     public List<ComplexReviewDto> retrieveReviewsByUser(@PathVariable String uid){
         return reviewIntegrationService.findReviewsByUser(uid);
+    }
+
+    @GetMapping("/reviews/cafe/{cafeName}")
+    @Operation(summary = "retrieve", description = "retrieve reviews by cafe")
+    public List<ComplexReviewDto> retrieveReviewsByCafe(@PathVariable String cafeName){
+        return reviewIntegrationService.findReviewsByCafe(cafeName);
     }
 }

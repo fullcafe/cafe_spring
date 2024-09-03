@@ -112,15 +112,39 @@ class ReviewControllerTest {
         Mockito.when(reviewIntegrationService.findReviewsByUser(Mockito.argThat(arg->!arg.equals("uid"))))
                 .thenThrow(new UserNotFoundException("유저를 찾을 수 없습니다."));
         // 유저 못가져옴
-        mvc.perform(get("/reviews/strange")
+        mvc.perform(get("/reviews/user/strange")
                         .with(SecurityMockMvcRequestPostProcessors.authentication(authentication)))
                 .andExpect(status().isNotFound());
         // 리뷰가 든 리스트를 가져옴(성공)
-        mvc.perform(get("/reviews/uid")
+        mvc.perform(get("/reviews/user/uid")
                         .with(SecurityMockMvcRequestPostProcessors.authentication(authentication)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].['uid']").value("uid"))
                 .andExpect(jsonPath("$[1].['reviewDto'].['numOfStar']").value(3));
+    }
+
+    @Test
+    @DisplayName("카페 기반 리뷰 조회 - 컨트롤러")
+    void retrieveReviewsByCafe() throws Exception {
+        SimpleReviewDto reviewDto = new SimpleReviewDto(review);
+        ComplexReviewDto complexDto = ComplexReviewDto.builder()
+                .uid("uid")
+                .reviewDto(reviewDto)
+                .build();
+        Mockito.when(reviewIntegrationService.findReviewsByCafe("cafe")).thenReturn(
+                List.of(complexDto)
+        );
+        Mockito.when(reviewIntegrationService.findReviewsByCafe(Mockito.argThat(arg->!arg.equals("cafe"))))
+                .thenThrow(new CafeNotFoundException("카페를 찾지 못했습니다."));
+        // 카페 못가져옴
+        mvc.perform(get("/reviews/cafe/strange")
+                        .with(SecurityMockMvcRequestPostProcessors.authentication(authentication)))
+                .andExpect(status().isNotFound());
+        // 리스트를 잘 가져옴
+        mvc.perform(get("/reviews/cafe/cafe")
+                        .with(SecurityMockMvcRequestPostProcessors.authentication(authentication)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].['reviewDto'].['content']").value("내용"));
     }
 
 }
