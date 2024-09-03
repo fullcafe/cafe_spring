@@ -5,7 +5,7 @@ import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Collection;
 
-public class    FirebaseAuthentication implements Authentication {
+public class FirebaseAuthentication implements Authentication {
     private String name;
     private String uid;
     private boolean isAuthenticated;
