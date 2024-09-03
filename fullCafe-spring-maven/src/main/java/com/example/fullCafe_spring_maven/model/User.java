@@ -28,7 +28,7 @@ public class User {
     private int characterIdx;
     @OneToMany(mappedBy = "user",fetch = FetchType.LAZY)
     private List<Review> reviews;
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "user",fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Bookmark> bookmarks = new ArrayList<>();
     @Override
     public String toString() {
