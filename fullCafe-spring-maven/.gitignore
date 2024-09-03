@@ -34,3 +34,4 @@ build/
 
 ### custom ###
 src/main/resources/serviceAccountKey.json
+target/classes/com/serviceAccountKey.json
