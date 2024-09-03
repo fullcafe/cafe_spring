@@ -94,6 +94,7 @@ class ReviewIntegrationServiceImplTest {
     }
 
     @Test
+    @DisplayName("유저로 부터 리뷰 조회 - 서비스")
     void findReviewsByUser(){
         // given
         Mockito.when(userService.findUserByUid(user.getUid())).thenReturn(user);
@@ -117,13 +118,42 @@ class ReviewIntegrationServiceImplTest {
                 .build();
         assertEquals(reviewDtos1,List.of(complexReviewDto));
     }
+
+    @Test
+    @DisplayName("카페로 부터 리뷰 조회 - 서비스")
+    void findReviewByCafe(){
+        // given
+        Mockito.when(cafeService.findCafeByCafeName(cafe.getName())).thenReturn(cafe);
+        Mockito.when(cafeService.findCafeByCafeName(Mockito.argThat(arg-> !arg.equals(cafe.getName()))))
+                .thenThrow(new CafeNotFoundException("카페를 찾을수 없음"));
+
+        // 카페 못들고옴(not found)
+        assertThrows(CafeNotFoundException.class,()->{
+            reviewIntegrationService.findReviewsByCafe("이상한 카페");
+        });
+        // 리뷰 못들오곰(빈리스트)
+        List<ComplexReviewDto> reviewDtos = reviewIntegrationService.findReviewsByCafe(cafe.getName());
+        assertEquals(reviewDtos,List.of());
+        // 유저 못 들고옴(유저 정보 공란)
+        review.setUser(null);
+        cafe.setReviews(List.of(review));
+        List<ComplexReviewDto> reviewDtos1 = reviewIntegrationService.findReviewsByCafe(cafe.getName());
+        assertNull(reviewDtos1.get(0).getUid());
+        assertNull(reviewDtos1.get(0).getName());
+        assertNotNull(reviewDtos1.get(0).getReviewDto());
+        // 성공
+        review.setUser(user);
+        List<ComplexReviewDto> reviewDtos2 = reviewIntegrationService.findReviewsByCafe(cafe.getName());
+        assertEquals(reviewDtos2.get(0).getUid(),user.getUid());
+        assertEquals(reviewDtos2.get(0).getName(),user.getName());
+        assertEquals(reviewDtos2.get(0).getReviewDto(),new SimpleReviewDto(review));
+        assertEquals(reviewDtos2.size(),1);
+
+    }
+
 }
 /*
  dto 2개 (심플한 dto) (심플dto,카페심플dto,유저심플dto)
 
- 카페 id -> 전부 다 들고옴
  카페정보 및 리뷰 2개 정도
- 리뷰 조회하면 카페 정보 및 리뷰 여러개
- 각각의 리뷰는 알갱이 및 유저 정보
- dto 2개(카페정보, 리뷰 2개) (카페간소정보, 리뷰 전부)
  */

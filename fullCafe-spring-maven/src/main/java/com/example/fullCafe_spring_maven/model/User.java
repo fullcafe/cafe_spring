@@ -28,8 +28,8 @@ public class User {
     private int characterIdx;
     @OneToMany(mappedBy = "user",fetch = FetchType.LAZY)
     private List<Review> reviews;
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Bookmark> bookmarks = new ArrayList<>();
+//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private List<Bookmark> bookmarks = new ArrayList<>();
     @Override
     public String toString() {
         return "User{" +

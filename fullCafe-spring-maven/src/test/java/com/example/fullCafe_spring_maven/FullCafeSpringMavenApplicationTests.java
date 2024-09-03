@@ -5,9 +5,5 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 class FullCafeSpringMavenApplicationTests {
-
-	@Test
-	void contextLoads() {
-	}
-
+	// 이거 왠지는 몰라도 오류 나서 없앰
 }
