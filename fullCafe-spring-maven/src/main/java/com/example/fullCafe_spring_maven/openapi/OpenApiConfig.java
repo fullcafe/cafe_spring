@@ -44,7 +44,7 @@ public class OpenApiConfig {
         return GroupedOpenApi.builder()
                 .group("review")
                 .addOpenApiCustomizer(openApi -> openApi.info(new Info().title("Review API").version("2.6.0")))
-                .pathsToMatch("/review")
+                .pathsToMatch("/review","/reviews/**")
                 .build();
     }
 

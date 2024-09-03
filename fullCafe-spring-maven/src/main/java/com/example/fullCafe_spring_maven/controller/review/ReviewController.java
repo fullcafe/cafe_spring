@@ -1,5 +1,6 @@
 package com.example.fullCafe_spring_maven.controller.review;
 
+import com.example.fullCafe_spring_maven.model.dto.review.ComplexReviewDto;
 import com.example.fullCafe_spring_maven.model.dto.review.SimpleReviewDto;
 import com.example.fullCafe_spring_maven.service.review.ReviewIntegrationService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -8,9 +9,10 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -22,5 +24,17 @@ public class ReviewController {
     public ResponseEntity<SimpleReviewDto> createReview(@Valid @RequestBody SimpleReviewDto reviewDto){
         reviewIntegrationService.createReview(reviewDto);
         return new ResponseEntity<SimpleReviewDto>(reviewDto, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/reviews/user/{uid}")
+    @Operation(summary = "retrieve",description = "retrieve reviews by user")
+    public List<ComplexReviewDto> retrieveReviewsByUser(@PathVariable String uid){
+        return reviewIntegrationService.findReviewsByUser(uid);
+    }
+
+    @GetMapping("/reviews/cafe/{cafeName}")
+    @Operation(summary = "retrieve", description = "retrieve reviews by cafe")
+    public List<ComplexReviewDto> retrieveReviewsByCafe(@PathVariable String cafeName){
+        return reviewIntegrationService.findReviewsByCafe(cafeName);
     }
 }

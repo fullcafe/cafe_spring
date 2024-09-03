@@ -2,6 +2,7 @@ package com.example.fullCafe_spring_maven.controller.review;
 
 import com.example.fullCafe_spring_maven.firebase.FirebaseAuthentication;
 import com.example.fullCafe_spring_maven.model.Review;
+import com.example.fullCafe_spring_maven.model.dto.review.ComplexReviewDto;
 import com.example.fullCafe_spring_maven.model.dto.review.SimpleReviewDto;
 import com.example.fullCafe_spring_maven.security.SpringSecurityConfigurationTest;
 import com.example.fullCafe_spring_maven.service.cafe.CafeNotFoundException;
@@ -19,6 +20,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -38,6 +40,8 @@ class ReviewControllerTest {
     @Autowired
     private ObjectMapper mapper;
     private final Authentication authentication = new FirebaseAuthentication("test@mail","uid",true);
+
+
     private final Review review = Review.builder()
             .numOfStar(3)
             .who(List.of("누구랑"))
@@ -92,6 +96,55 @@ class ReviewControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(content3))
                 .andExpect(status().isNotFound());
+    }
+
+    @Test
+    @DisplayName("유저 기반 리뷰 조회 - 컨트롤러")
+    void retrieveReviewsByUser() throws Exception {
+        SimpleReviewDto reviewDto = new SimpleReviewDto(review);
+        ComplexReviewDto complexDto = ComplexReviewDto.builder()
+                .uid("uid")
+                .reviewDto(reviewDto)
+                .build();
+        Mockito.when(reviewIntegrationService.findReviewsByUser("uid")).thenReturn(
+                List.of(complexDto, complexDto)
+        );
+        Mockito.when(reviewIntegrationService.findReviewsByUser(Mockito.argThat(arg->!arg.equals("uid"))))
+                .thenThrow(new UserNotFoundException("유저를 찾을 수 없습니다."));
+        // 유저 못가져옴
+        mvc.perform(get("/reviews/user/strange")
+                        .with(SecurityMockMvcRequestPostProcessors.authentication(authentication)))
+                .andExpect(status().isNotFound());
+        // 리뷰가 든 리스트를 가져옴(성공)
+        mvc.perform(get("/reviews/user/uid")
+                        .with(SecurityMockMvcRequestPostProcessors.authentication(authentication)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].['uid']").value("uid"))
+                .andExpect(jsonPath("$[1].['reviewDto'].['numOfStar']").value(3));
+    }
+
+    @Test
+    @DisplayName("카페 기반 리뷰 조회 - 컨트롤러")
+    void retrieveReviewsByCafe() throws Exception {
+        SimpleReviewDto reviewDto = new SimpleReviewDto(review);
+        ComplexReviewDto complexDto = ComplexReviewDto.builder()
+                .uid("uid")
+                .reviewDto(reviewDto)
+                .build();
+        Mockito.when(reviewIntegrationService.findReviewsByCafe("cafe")).thenReturn(
+                List.of(complexDto)
+        );
+        Mockito.when(reviewIntegrationService.findReviewsByCafe(Mockito.argThat(arg->!arg.equals("cafe"))))
+                .thenThrow(new CafeNotFoundException("카페를 찾지 못했습니다."));
+        // 카페 못가져옴
+        mvc.perform(get("/reviews/cafe/strange")
+                        .with(SecurityMockMvcRequestPostProcessors.authentication(authentication)))
+                .andExpect(status().isNotFound());
+        // 리스트를 잘 가져옴
+        mvc.perform(get("/reviews/cafe/cafe")
+                        .with(SecurityMockMvcRequestPostProcessors.authentication(authentication)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].['reviewDto'].['content']").value("내용"));
     }
 
 }
