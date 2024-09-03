@@ -57,4 +57,27 @@ public class ReviewIntegrationServiceImpl implements ReviewIntegrationService {
         }
         return reviewDtos;
     }
+
+    public List<ComplexReviewDto> findReviewsByCafe(String cafeName){
+        Cafe cafe = cafeService.findCafeByCafeName(cafeName);
+        List<Review> reviews = cafe.getReviews();
+        List<ComplexReviewDto> reviewDtos = new ArrayList<ComplexReviewDto>();
+        if(reviews != null){
+            reviews.forEach(review -> {
+                SimpleReviewDto reviewDto = new SimpleReviewDto(review);
+                ComplexReviewDto complexReviewDto = ComplexReviewDto.builder()
+                        .reviewDto(reviewDto)
+                        .build();
+                User user = review.getUser();
+                // 유저는 nullable = false지만 DB 오류로 null일 때를 방지
+                if(user != null){
+                    complexReviewDto.setUid(user.getUid());
+                    complexReviewDto.setName(user.getName());
+                }
+                reviewDtos.add(complexReviewDto);
+            });
+        }
+        return reviewDtos;
+    }
+
 }

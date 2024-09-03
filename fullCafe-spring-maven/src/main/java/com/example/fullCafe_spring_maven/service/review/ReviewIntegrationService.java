@@ -8,4 +8,5 @@ import java.util.List;
 public interface ReviewIntegrationService {
     public void createReview(SimpleReviewDto reviewDto);
     public List<ComplexReviewDto> findReviewsByUser(String uid);
+    public List<ComplexReviewDto> findReviewsByCafe(String cafeName);
 }
