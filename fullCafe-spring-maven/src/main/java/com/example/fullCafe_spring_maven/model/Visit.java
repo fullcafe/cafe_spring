@@ -27,4 +27,13 @@ public class Visit {
     @JoinColumn(name = "cafeName", nullable = false)
     private Cafe cafe;
 
+    @Override
+    public String toString() {
+        return "Visit{" +
+                "id=" + id +
+                ", count=" + count +
+                ", writeReview=" + writeReview +
+                ", recent=" + recent +
+                '}';
+    }
 }
