@@ -25,7 +25,7 @@ public class Bookmark {
     @JoinColumn(name = "cafe_name", nullable = false)
     private Cafe cafe;
 
-    private int bookmarkCount;
+
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
@@ -36,7 +36,6 @@ public class Bookmark {
                 "id=" + id +
                 ", user=" + user.getUid() +
                 ", cafe=" + cafe.getName() +
-                ", bookmarkCount=" + bookmarkCount +
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
                 '}';

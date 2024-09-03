@@ -48,7 +48,6 @@ public class BookmarkServiceImpl implements BookmarkService {
         Bookmark bookmark = new Bookmark();
         bookmark.setUser(user);
         bookmark.setCafe(cafe);
-        bookmark.setBookmarkCount(1);
         bookmark.setCreatedAt(LocalDateTime.now());
         bookmark.setUpdatedAt(LocalDateTime.now());
 
