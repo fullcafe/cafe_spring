@@ -33,6 +33,7 @@ public class VisitIntegrationServiceImpl implements VisitIntegrationService{
         Visit visit = Visit.builder()
                 .visitId(visitId)
                 .count(visitDto.getCount())
+                .writeReview(visitDto.isWriteReview())
                 .recent(visitDto.getRecent())
                 .user(user)
                 .cafe(cafe)
