@@ -48,6 +48,24 @@ public class OpenApiConfig {
                 .build();
     }
 
+    @Bean
+    public GroupedOpenApi visitGroup(){
+        return GroupedOpenApi.builder()
+                .group("visit")
+                .addOpenApiCustomizer(openApi -> openApi.info(new Info().title("Visit API").version("2.6.0")))
+                .pathsToMatch("/visit")
+                .build();
+    }
+
+    @Bean
+    public GroupedOpenApi bookmarkGroup(){
+        return GroupedOpenApi.builder()
+                .group("bookmark")
+                .addOpenApiCustomizer(openApi -> openApi.info(new Info().title("bookmark API").version("2.6.0")))
+                .pathsToMatch("/api/bookmarks/**")
+                .build();
+    }
+
     // Scheme 정보
     @Bean
     public SecurityScheme securityScheme(){

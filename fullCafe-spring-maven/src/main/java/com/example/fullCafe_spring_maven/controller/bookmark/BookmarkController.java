@@ -2,6 +2,7 @@ package com.example.fullCafe_spring_maven.controller.bookmark;
 
 import com.example.fullCafe_spring_maven.model.Bookmark;
 import com.example.fullCafe_spring_maven.service.bookmark.BookmarkService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,6 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/bookmarks")
+@Tag(name = "Bookmark",description = "Controller with Bookmark")
 public class BookmarkController {
 
     @Autowired
