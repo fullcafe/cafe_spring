@@ -21,10 +21,10 @@ public class Visit {
     @Column(nullable = false)
     private LocalDateTime recent; // 최근 방문 시간
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "uid")
+    @MapsId("uid")
     private User user;
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "cafeName")
+    @MapsId("cafeName")
     private Cafe cafe;
 
     @Override
