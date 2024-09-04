@@ -4,6 +4,7 @@ import com.example.fullCafe_spring_maven.model.Cafe;
 import com.example.fullCafe_spring_maven.model.User;
 import com.example.fullCafe_spring_maven.model.Visit;
 import com.example.fullCafe_spring_maven.model.dto.visit.SimpleVisitDto;
+import com.example.fullCafe_spring_maven.model.key.VisitId;
 import com.example.fullCafe_spring_maven.service.cafe.CafeService;
 import com.example.fullCafe_spring_maven.service.user.UserService;
 import lombok.RequiredArgsConstructor;
@@ -21,9 +22,12 @@ public class VisitIntegrationServiceImpl implements VisitIntegrationService{
     public void createVisit(SimpleVisitDto visitDto) {
         User user = userService.findUserByUid(visitDto.getUid());
         Cafe cafe = cafeService.findCafeByCafeName(visitDto.getCafeName());
-        Visit visit = Visit.builder()
+        VisitId visitId = VisitId.builder()
                 .uid(user.getUid())
                 .cafeName(cafe.getName())
+                .build();
+        Visit visit = Visit.builder()
+                .visitId(visitId)
                 .count(visitDto.getCount())
                 .recent(visitDto.getRecent())
                 .build();

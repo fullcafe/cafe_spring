@@ -26,8 +26,8 @@ public class SimpleVisitDto {
     private LocalDateTime recent;
 
     public SimpleVisitDto(Visit visit){
-        this.uid = visit.getUid();
-        this.cafeName = visit.getCafeName();
+        this.uid = visit.getVisitId().getUid();
+        this.cafeName = visit.getVisitId().getCafeName();
         this.count = visit.getCount();
         this.writeReview = visit.isWriteReview();
         this.recent = visit.getRecent();

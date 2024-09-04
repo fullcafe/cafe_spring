@@ -1,5 +1,6 @@
 package com.example.fullCafe_spring_maven.model;
 
+import com.example.fullCafe_spring_maven.model.key.VisitId;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -13,12 +14,8 @@ import java.time.LocalDateTime;
 @Builder
 @EqualsAndHashCode
 public class Visit {
-    @Id
-    @Column(nullable = false)
-    private String uid;
-    @Id
-    @Column(nullable = false)
-    private String cafeName;
+    @EmbeddedId
+    private VisitId visitId;
     private int count; // 횟수 디폴트 0
     private boolean writeReview; // 리뷰 작성 여부 디폴트 F
     @Column(nullable = false)
@@ -33,8 +30,7 @@ public class Visit {
     @Override
     public String toString() {
         return "Visit{" +
-                "uid='" + uid + '\'' +
-                ", cafeName='" + cafeName + '\'' +
+                "visitId=" + visitId +
                 ", count=" + count +
                 ", writeReview=" + writeReview +
                 ", recent=" + recent +

@@ -4,6 +4,7 @@ import com.example.fullCafe_spring_maven.model.Cafe;
 import com.example.fullCafe_spring_maven.model.User;
 import com.example.fullCafe_spring_maven.model.Visit;
 import com.example.fullCafe_spring_maven.model.dto.visit.SimpleVisitDto;
+import com.example.fullCafe_spring_maven.model.key.VisitId;
 import com.example.fullCafe_spring_maven.service.cafe.CafeNotFoundException;
 import com.example.fullCafe_spring_maven.service.cafe.CafeService;
 import com.example.fullCafe_spring_maven.service.user.UserNotFoundException;
@@ -45,9 +46,12 @@ class VisitIntegrationServiceImplTest {
             .address("address")
             .phone("12345")
             .build();
-    private final Visit visit = Visit.builder()
+    private final VisitId visitId = VisitId.builder()
             .uid(user.getUid())
             .cafeName(cafe.getName())
+            .build();
+    private final Visit visit = Visit.builder()
+            .visitId(visitId)
             .count(1)
             .recent(LocalDateTime.now())
             .user(user)
