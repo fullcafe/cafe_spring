@@ -56,7 +56,6 @@ class VisitIntegrationServiceImplTest {
     private final Visit visit = Visit.builder()
             .visitId(visitId)
             .count(1)
-            .writeReview(false)
             .recent(LocalDateTime.now())
             .user(user)
             .cafe(cafe)

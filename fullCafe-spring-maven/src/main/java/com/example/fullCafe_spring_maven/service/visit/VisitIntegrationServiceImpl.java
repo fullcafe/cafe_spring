@@ -33,7 +33,6 @@ public class VisitIntegrationServiceImpl implements VisitIntegrationService{
         Visit visit = Visit.builder()
                 .visitId(visitId)
                 .count(visitDto.getCount())
-                .writeReview(visitDto.isWriteReview())
                 .recent(visitDto.getRecent())
                 .user(user)
                 .cafe(cafe)
@@ -59,15 +58,6 @@ public class VisitIntegrationServiceImpl implements VisitIntegrationService{
     public List<ComplexVisitDto> findAllVisitByUser(String uid){
         User user = userService.findUserByUid(uid);
         List<Visit> visits = user.getVisits();
-        List<ComplexVisitDto> visitDtos = new ArrayList<ComplexVisitDto>();
-        if(visits != null){
-            visitDtos = convertVisitToComplexDto(visits,user.getUid(),user.getName());
-        }
-        return visitDtos;
-    }
-    public List<ComplexVisitDto> findNoReviewVisitByUser(String uid){
-        User user = userService.findUserByUid(uid);
-        List<Visit> visits = visitService.findByUserAndWriteReview(user, false);
         List<ComplexVisitDto> visitDtos = new ArrayList<ComplexVisitDto>();
         if(visits != null){
             visitDtos = convertVisitToComplexDto(visits,user.getUid(),user.getName());

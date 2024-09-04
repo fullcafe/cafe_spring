@@ -21,7 +21,6 @@ public class SimpleVisitDto {
     private String cafeName;
     @Min(1)
     private int count;
-    private boolean writeReview;
     @NotNull
     private LocalDateTime recent;
 
@@ -29,7 +28,6 @@ public class SimpleVisitDto {
         this.uid = visit.getVisitId().getUid();
         this.cafeName = visit.getVisitId().getCafeName();
         this.count = visit.getCount();
-        this.writeReview = visit.isWriteReview();
         this.recent = visit.getRecent();
     }
 }
