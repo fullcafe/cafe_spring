@@ -3,6 +3,7 @@ package com.example.fullCafe_spring_maven.service.visit;
 import com.example.fullCafe_spring_maven.model.Cafe;
 import com.example.fullCafe_spring_maven.model.User;
 import com.example.fullCafe_spring_maven.model.Visit;
+import com.example.fullCafe_spring_maven.model.dto.visit.ComplexVisitDto;
 import com.example.fullCafe_spring_maven.model.dto.visit.SimpleVisitDto;
 import com.example.fullCafe_spring_maven.model.key.VisitId;
 import com.example.fullCafe_spring_maven.service.cafe.CafeNotFoundException;
@@ -19,6 +20,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.times;
@@ -53,6 +56,7 @@ class VisitIntegrationServiceImplTest {
     private final Visit visit = Visit.builder()
             .visitId(visitId)
             .count(1)
+            .writeReview(false)
             .recent(LocalDateTime.now())
             .user(user)
             .cafe(cafe)
@@ -90,6 +94,26 @@ class VisitIntegrationServiceImplTest {
         SimpleVisitDto visitDto2 = new SimpleVisitDto(visit);
         visitIntegrationService.createVisit(visitDto2);
         verify(visitService,times(1)).createVisit(visit);
+    }
+    @Test
+    @DisplayName("visit 전부 조회 - 서비스")
+    void findAllVisitByUser(){
+        Mockito.when(userService.findUserByUid(user.getUid())).thenReturn(user);
+        Mockito.when(userService.findUserByUid(Mockito.argThat(arg->!arg.equals(user.getUid()))))
+                .thenThrow(new UserNotFoundException("유저 없음"));
+        // 유저 없
+        assertThrows(UserNotFoundException.class,()->{
+            visitIntegrationService.findAllVisitByUser("sdasd");
+        });
+        // 빈리스트
+        List<ComplexVisitDto> visitDtos = visitIntegrationService.findAllVisitByUser(user.getUid());
+        assertEquals(visitDtos,List.of());
+        // 성공
+        user.setVisits(List.of(visit));
+        List<ComplexVisitDto> visitDtos1 = visitIntegrationService.findAllVisitByUser(user.getUid());
+        assertEquals(visitDtos1.get(0).getUid(),user.getUid());
+        assertEquals(visitDtos1.get(0).getVisitDto().getCount(),1);
+        assertEquals(visitDtos1.get(0).getCafeDto().getName(),cafe.getName());
     }
 
 }

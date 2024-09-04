@@ -1,6 +1,7 @@
 package com.example.fullCafe_spring_maven.controller.visit;
 
 import com.example.fullCafe_spring_maven.firebase.FirebaseAuthentication;
+import com.example.fullCafe_spring_maven.model.dto.visit.ComplexVisitDto;
 import com.example.fullCafe_spring_maven.model.dto.visit.SimpleVisitDto;
 import com.example.fullCafe_spring_maven.security.SpringSecurityConfigurationTest;
 import com.example.fullCafe_spring_maven.service.user.UserNotFoundException;
@@ -19,6 +20,7 @@ import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequ
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -78,6 +80,23 @@ class VisitControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(content3))
                 .andExpect(status().isBadRequest());
+    }
+    @Test
+    @DisplayName("유저 기반 방문 전부 조회 - 컨트롤러")
+    void findAllVisitByUser() throws Exception {
+        Mockito.when(visitIntegrationService.findAllVisitByUser("uid")).thenReturn(List.of(
+                new ComplexVisitDto()));
+        Mockito.when(visitIntegrationService.findAllVisitByUser(Mockito.argThat(arg->!arg.equals("uid"))))
+                        .thenThrow(new UserNotFoundException("유저 없음"));
+        // 유저 없
+        mvc.perform(get("/visits/all/srei")
+                        .with(SecurityMockMvcRequestPostProcessors.authentication(authentication)))
+                .andExpect(status().isNotFound());
+        // 성공
+        mvc.perform(get("/visits/all/uid")
+                .with(SecurityMockMvcRequestPostProcessors.authentication(authentication)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.size()").value(1));
     }
 
 }

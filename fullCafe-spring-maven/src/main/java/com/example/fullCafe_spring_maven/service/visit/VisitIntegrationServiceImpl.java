@@ -3,12 +3,17 @@ package com.example.fullCafe_spring_maven.service.visit;
 import com.example.fullCafe_spring_maven.model.Cafe;
 import com.example.fullCafe_spring_maven.model.User;
 import com.example.fullCafe_spring_maven.model.Visit;
+import com.example.fullCafe_spring_maven.model.dto.cafe.SimpleCafeDto;
+import com.example.fullCafe_spring_maven.model.dto.visit.ComplexVisitDto;
 import com.example.fullCafe_spring_maven.model.dto.visit.SimpleVisitDto;
 import com.example.fullCafe_spring_maven.model.key.VisitId;
 import com.example.fullCafe_spring_maven.service.cafe.CafeService;
 import com.example.fullCafe_spring_maven.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Service
@@ -28,10 +33,55 @@ public class VisitIntegrationServiceImpl implements VisitIntegrationService{
         Visit visit = Visit.builder()
                 .visitId(visitId)
                 .count(visitDto.getCount())
+                .writeReview(visitDto.isWriteReview())
                 .recent(visitDto.getRecent())
                 .user(user)
                 .cafe(cafe)
                 .build();
         visitService.createVisit(visit);
+    }
+
+    public List<ComplexVisitDto> convertVisitToComplexDto(List<Visit> visits,String uid,String username){
+        List<ComplexVisitDto> visitDtos = new ArrayList<ComplexVisitDto>();
+        visits.forEach(visit -> {
+            Cafe cafe = visit.getCafe();
+            ComplexVisitDto complexVisitDto = ComplexVisitDto.builder()
+                    .uid(uid)
+                    .name(username)
+                    .cafeDto(new SimpleCafeDto(cafe))
+                    .visitDto(new SimpleVisitDto(visit))
+                    .build();
+            visitDtos.add(complexVisitDto);
+        });
+        return visitDtos;
+    }
+
+    public List<ComplexVisitDto> findAllVisitByUser(String uid){
+        User user = userService.findUserByUid(uid);
+        List<Visit> visits = user.getVisits();
+        List<ComplexVisitDto> visitDtos = new ArrayList<ComplexVisitDto>();
+        if(visits != null){
+            visitDtos = convertVisitToComplexDto(visits,user.getUid(),user.getName());
+        }
+        return visitDtos;
+    }
+    public List<ComplexVisitDto> findNoReviewVisitByUser(String uid){
+        User user = userService.findUserByUid(uid);
+        List<Visit> visits = visitService.findByUserAndWriteReview(user, false);
+        List<ComplexVisitDto> visitDtos = new ArrayList<ComplexVisitDto>();
+        if(visits != null){
+            visitDtos = convertVisitToComplexDto(visits,user.getUid(),user.getName());
+        }
+        return visitDtos;
+    }
+    // 10개 이상의 방문만
+    public List<ComplexVisitDto> findMostCountVisitByUser(String uid){
+        User user = userService.findUserByUid(uid);
+        List<Visit> visits = visitService.findByUserAndCountGreaterThanEqual(user,10);
+        List<ComplexVisitDto> visitDtos = new ArrayList<ComplexVisitDto>();
+        if(visits != null){
+            visitDtos = convertVisitToComplexDto(visits,user.getUid(),user.getName());
+        }
+        return visitDtos;
     }
 }
