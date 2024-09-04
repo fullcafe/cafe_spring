@@ -64,4 +64,13 @@ public class VisitIntegrationServiceImpl implements VisitIntegrationService{
         }
         return visitDtos;
     }
+    public List<ComplexVisitDto> findNoReviewVisitByUser(String uid){
+        User user = userService.findUserByUid(uid);
+        List<Visit> visits = visitService.findNoReviewVisitByUser(user);
+        List<ComplexVisitDto> visitDtos = new ArrayList<ComplexVisitDto>();
+        if(visits != null){
+            visitDtos = convertVisitToComplexDto(visits,user.getUid(),user.getName());
+        }
+        return visitDtos;
+    }
 }

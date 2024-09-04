@@ -1,9 +1,12 @@
 package com.example.fullCafe_spring_maven.service.visit;
 
+import com.example.fullCafe_spring_maven.model.User;
 import com.example.fullCafe_spring_maven.model.Visit;
 import com.example.fullCafe_spring_maven.repository.visit.VisitRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -12,5 +15,8 @@ public class VisitServiceImpl implements VisitService {
 
     public void createVisit(Visit visit){
         visitRepository.save(visit);
+    }
+    public List<Visit> findNoReviewVisitByUser(User user){
+        return visitRepository.findByUserAndWriteReview(user,false);
     }
 }
