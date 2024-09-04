@@ -66,7 +66,17 @@ public class VisitIntegrationServiceImpl implements VisitIntegrationService{
     }
     public List<ComplexVisitDto> findNoReviewVisitByUser(String uid){
         User user = userService.findUserByUid(uid);
-        List<Visit> visits = visitService.findNoReviewVisitByUser(user);
+        List<Visit> visits = visitService.findByUserAndWriteReview(user, false);
+        List<ComplexVisitDto> visitDtos = new ArrayList<ComplexVisitDto>();
+        if(visits != null){
+            visitDtos = convertVisitToComplexDto(visits,user.getUid(),user.getName());
+        }
+        return visitDtos;
+    }
+    // 10개 이상의 방문만
+    public List<ComplexVisitDto> findMostCountVisitByUser(String uid){
+        User user = userService.findUserByUid(uid);
+        List<Visit> visits = visitService.findByUserAndCountGreaterThanEqual(user,10);
         List<ComplexVisitDto> visitDtos = new ArrayList<ComplexVisitDto>();
         if(visits != null){
             visitDtos = convertVisitToComplexDto(visits,user.getUid(),user.getName());

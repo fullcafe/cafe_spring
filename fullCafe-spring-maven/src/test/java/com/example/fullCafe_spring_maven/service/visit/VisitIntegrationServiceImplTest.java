@@ -116,7 +116,3 @@ class VisitIntegrationServiceImplTest {
     }
 
 }
-/*
- 리뷰 쓰세요(일부)
- 가장 많이 방문한 카페(2개)
- */
