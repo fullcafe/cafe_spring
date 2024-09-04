@@ -53,7 +53,7 @@ public class OpenApiConfig {
         return GroupedOpenApi.builder()
                 .group("visit")
                 .addOpenApiCustomizer(openApi -> openApi.info(new Info().title("Visit API").version("2.6.0")))
-                .pathsToMatch("/visit")
+                .pathsToMatch("/visit","/visits/**")
                 .build();
     }
 
