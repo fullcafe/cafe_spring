@@ -17,7 +17,6 @@ public class Visit {
     @EmbeddedId
     private VisitId visitId;
     private int count; // 횟수 디폴트 0
-    private boolean writeReview; // 리뷰 작성 여부 디폴트 F
     @Column(nullable = false)
     private LocalDateTime recent; // 최근 방문 시간
     @ManyToOne(fetch = FetchType.EAGER)
@@ -34,7 +33,6 @@ public class Visit {
         return "Visit{" +
                 "visitId=" + visitId +
                 ", count=" + count +
-                ", writeReview=" + writeReview +
                 ", recent=" + recent +
                 '}';
     }

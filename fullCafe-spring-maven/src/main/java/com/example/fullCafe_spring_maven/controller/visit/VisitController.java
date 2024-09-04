@@ -26,14 +26,12 @@ public class VisitController {
         return new ResponseEntity<SimpleVisitDto>(visitDto, HttpStatus.CREATED);
     }
     @GetMapping("/visits/all/{uid}")
+    @Operation(summary = "retrieve",description = "retrieve all visit by user")
     public List<ComplexVisitDto> findAllVisitByUser(@PathVariable String uid){
         return visitIntegrationService.findAllVisitByUser(uid);
     }
-    @GetMapping("/visits/no_review/{uid}")
-    public List<ComplexVisitDto> findNoReviewVisitByUser(@PathVariable String uid){
-        return visitIntegrationService.findNoReviewVisitByUser(uid);
-    }
     @GetMapping("/visits/most_visit/{uid}")
+    @Operation(summary = "retrieve",description = "retrieve most count visit by user")
     public List<ComplexVisitDto> findMostCountVisitByUser(@PathVariable String uid){
         return visitIntegrationService.findMostCountVisitByUser(uid);
     }
