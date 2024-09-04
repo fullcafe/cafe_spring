@@ -30,6 +30,8 @@ public class User {
     private List<Review> reviews;
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Bookmark> bookmarks = new ArrayList<>();
+    @OneToMany(mappedBy = "user",fetch = FetchType.LAZY)
+    private List<Visit> visits;
     @Override
     public String toString() {
         return "User{" +

@@ -33,6 +33,8 @@ public class Cafe {
     private List<Review> reviews;
     @OneToMany(mappedBy = "cafe", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Bookmark> bookmarks = new ArrayList<>();
+    @OneToMany(mappedBy = "cafe",fetch = FetchType.LAZY)
+    private List<Visit> visits;
 
     @Override
     public String toString() {
