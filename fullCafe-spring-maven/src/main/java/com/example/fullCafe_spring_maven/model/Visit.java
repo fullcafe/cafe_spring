@@ -22,9 +22,11 @@ public class Visit {
     private LocalDateTime recent; // 최근 방문 시간
     @ManyToOne(fetch = FetchType.EAGER)
     @MapsId("uid")
+    @JoinColumn(name = "uid")
     private User user;
     @ManyToOne(fetch = FetchType.EAGER)
     @MapsId("cafeName")
+    @JoinColumn(name = "cafe_name")
     private Cafe cafe;
 
     @Override

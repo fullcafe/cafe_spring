@@ -10,7 +10,6 @@ import com.example.fullCafe_spring_maven.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
@@ -30,6 +29,8 @@ public class VisitIntegrationServiceImpl implements VisitIntegrationService{
                 .visitId(visitId)
                 .count(visitDto.getCount())
                 .recent(visitDto.getRecent())
+                .user(user)
+                .cafe(cafe)
                 .build();
         visitService.createVisit(visit);
     }

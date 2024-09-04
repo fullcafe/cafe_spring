@@ -10,6 +10,7 @@ import java.io.Serializable;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 @Builder
 @EqualsAndHashCode
 public class VisitId implements Serializable {
@@ -17,5 +18,4 @@ public class VisitId implements Serializable {
     private String uid;
     @Column(nullable = false)
     private String cafeName;
-
 }

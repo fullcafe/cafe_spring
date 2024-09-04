@@ -87,7 +87,6 @@ class VisitIntegrationServiceImplTest {
             visitIntegrationService.createVisit(visitDto1);
         });
         // 서비스 호출
-        visit.setUser(null); visit.setCafe(null);
         SimpleVisitDto visitDto2 = new SimpleVisitDto(visit);
         visitIntegrationService.createVisit(visitDto2);
         verify(visitService,times(1)).createVisit(visit);
