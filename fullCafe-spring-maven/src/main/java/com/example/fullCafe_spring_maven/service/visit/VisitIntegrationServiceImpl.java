@@ -55,23 +55,31 @@ public class VisitIntegrationServiceImpl implements VisitIntegrationService{
         return visitDtos;
     }
 
-    public List<ComplexVisitDto> findAllVisitByUser(String uid){
+    public List<ComplexVisitDto> findByUserTemplate(String uid,FindVisitCallBack callBack){
         User user = userService.findUserByUid(uid);
-        List<Visit> visits = user.getVisits();
+        List<Visit> visits = callBack.findVisit(user);
         List<ComplexVisitDto> visitDtos = new ArrayList<ComplexVisitDto>();
         if(visits != null){
             visitDtos = convertVisitToComplexDto(visits,user.getUid(),user.getName());
         }
         return visitDtos;
     }
+
+    public List<ComplexVisitDto> findAllVisitByUser(String uid){
+        return findByUserTemplate(uid, new FindVisitCallBack() {
+            @Override
+            public List<Visit> findVisit(User user) {
+                return user.getVisits();
+            }
+        });
+    }
     // 10개 이상의 방문만
     public List<ComplexVisitDto> findMostCountVisitByUser(String uid){
-        User user = userService.findUserByUid(uid);
-        List<Visit> visits = visitService.findByUserAndCountGreaterThanEqual(user,10);
-        List<ComplexVisitDto> visitDtos = new ArrayList<ComplexVisitDto>();
-        if(visits != null){
-            visitDtos = convertVisitToComplexDto(visits,user.getUid(),user.getName());
-        }
-        return visitDtos;
+        return findByUserTemplate(uid, new FindVisitCallBack() {
+            @Override
+            public List<Visit> findVisit(User user) {
+                return visitService.findByUserAndCountGreaterThanEqual(user,10);
+            }
+        });
     }
 }
