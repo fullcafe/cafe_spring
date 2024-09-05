@@ -30,6 +30,11 @@ public class VisitController {
     public List<ComplexVisitDto> findAllVisitByUser(@PathVariable String uid){
         return visitIntegrationService.findAllVisitByUser(uid);
     }
+    @GetMapping("/visits/write_review/{uid}")
+    @Operation(summary = "retrieve",description = "retrieve visit that can write review by user")
+    public List<ComplexVisitDto> findWriteReviewVisitByUser(@PathVariable String uid){
+        return visitIntegrationService.findWriteReviewVisitByUser(uid);
+    }
     @GetMapping("/visits/most_visit/{uid}")
     @Operation(summary = "retrieve",description = "retrieve most count visit by user")
     public List<ComplexVisitDto> findMostCountVisitByUser(@PathVariable String uid){

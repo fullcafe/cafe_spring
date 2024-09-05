@@ -73,6 +73,16 @@ public class VisitIntegrationServiceImpl implements VisitIntegrationService{
             }
         });
     }
+
+    public List<ComplexVisitDto> findWriteReviewVisitByUser(String uid) {
+        return findByUserTemplate(uid, new FindVisitCallBack() {
+            @Override
+            public List<Visit> findVisit(User user) {
+                return visitService.findByUserAndWriteReview(user,true);
+            }
+        });
+    }
+
     // 10개 이상의 방문만
     public List<ComplexVisitDto> findMostCountVisitByUser(String uid){
         return findByUserTemplate(uid, new FindVisitCallBack() {

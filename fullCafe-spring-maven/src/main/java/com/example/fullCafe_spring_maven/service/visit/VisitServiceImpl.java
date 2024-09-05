@@ -16,6 +16,9 @@ public class VisitServiceImpl implements VisitService {
     public void createVisit(Visit visit){
         visitRepository.save(visit);
     }
+    public List<Visit> findByUserAndWriteReview(User user,boolean isWrite){
+        return visitRepository.findByUserAndWriteReview(user,isWrite);
+    }
     public List<Visit> findByUserAndCountGreaterThanEqual(User user, int count){
         return visitRepository.findByUserAndCountGreaterThanEqual(user,count);
     }
