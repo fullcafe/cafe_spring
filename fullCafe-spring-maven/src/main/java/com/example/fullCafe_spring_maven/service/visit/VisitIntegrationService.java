@@ -10,5 +10,6 @@ public interface VisitIntegrationService {
     void createVisit(SimpleVisitDto visitDto);
     List<ComplexVisitDto> convertVisitToComplexDto(List<Visit> visits, String uid, String username);
     List<ComplexVisitDto> findAllVisitByUser(String uid);
+    List<ComplexVisitDto> findWriteReviewVisitByUser(String uid);
     List<ComplexVisitDto> findMostCountVisitByUser(String uid);
 }
