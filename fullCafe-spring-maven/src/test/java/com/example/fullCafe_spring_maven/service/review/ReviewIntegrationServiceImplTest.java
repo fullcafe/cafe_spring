@@ -10,6 +10,7 @@ import com.example.fullCafe_spring_maven.service.cafe.CafeNotFoundException;
 import com.example.fullCafe_spring_maven.service.cafe.CafeService;
 import com.example.fullCafe_spring_maven.service.user.UserNotFoundException;
 import com.example.fullCafe_spring_maven.service.user.UserService;
+import com.example.fullCafe_spring_maven.service.visit.VisitService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -35,6 +36,8 @@ class ReviewIntegrationServiceImplTest {
     private UserService userService;
     @MockBean
     private CafeService cafeService;
+    @MockBean
+    private VisitService visitService;
 
     private final User user = User.builder()
             .uid("uid")
@@ -62,9 +65,14 @@ class ReviewIntegrationServiceImplTest {
     @BeforeEach
     void setup(){
         reviewIntegrationService = new ReviewIntegrationServiceImpl(
-                reviewService,userService,cafeService
+                reviewService,userService,cafeService,visitService
         );
     }
+
+    void checkWriteReview(){
+        // visit를 들고와서 체크 여부 확인
+    }
+
     @Test
     @DisplayName("리뷰 통합 생성 - 서비스")
     void createReview() {
@@ -153,7 +161,7 @@ class ReviewIntegrationServiceImplTest {
 
 }
 /*
- dto 2개 (심플한 dto) (심플dto,카페심플dto,유저심플dto)
-
- 카페정보 및 리뷰 2개 정도
+ 리뷰 작성하기 전 작성 가능한지 여부 체크
+ (작성
+ 작성후 visit 업데이트) <- 동일 트랜잭션
  */

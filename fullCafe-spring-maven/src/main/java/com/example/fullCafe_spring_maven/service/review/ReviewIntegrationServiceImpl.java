@@ -3,11 +3,13 @@ package com.example.fullCafe_spring_maven.service.review;
 import com.example.fullCafe_spring_maven.model.Cafe;
 import com.example.fullCafe_spring_maven.model.Review;
 import com.example.fullCafe_spring_maven.model.User;
+import com.example.fullCafe_spring_maven.model.Visit;
 import com.example.fullCafe_spring_maven.model.dto.cafe.SimpleCafeDto;
 import com.example.fullCafe_spring_maven.model.dto.review.ComplexReviewDto;
 import com.example.fullCafe_spring_maven.model.dto.review.SimpleReviewDto;
 import com.example.fullCafe_spring_maven.service.cafe.CafeService;
 import com.example.fullCafe_spring_maven.service.user.UserService;
+import com.example.fullCafe_spring_maven.service.visit.VisitService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -20,11 +22,15 @@ public class ReviewIntegrationServiceImpl implements ReviewIntegrationService {
     private final ReviewService reviewService;
     private final UserService userService;
     private final CafeService cafeService;
+    private final VisitService visitService;
 
-
+    public void checkWriteReview(User user,Cafe cafe){
+        visitService.findByUserAndCafe(user,cafe);
+    }
     public void createReview(SimpleReviewDto reviewDto) {
         User user = userService.findUserByUid(reviewDto.getUid());
         Cafe cafe = cafeService.findCafeByCafeName(reviewDto.getCafeName());
+        Visit visit = visitService.findByUserAndCafe(user,cafe);
         Review review = Review.builder()
                 .numOfStar(reviewDto.getNumOfStar())
                 .who(reviewDto.getWho())
