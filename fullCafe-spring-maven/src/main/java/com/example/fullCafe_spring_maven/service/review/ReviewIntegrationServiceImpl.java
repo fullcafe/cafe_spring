@@ -12,25 +12,21 @@ import com.example.fullCafe_spring_maven.service.user.UserService;
 import com.example.fullCafe_spring_maven.service.visit.VisitService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class ReviewIntegrationServiceImpl implements ReviewIntegrationService {
     private final ReviewService reviewService;
     private final UserService userService;
     private final CafeService cafeService;
     private final VisitService visitService;
 
-    public void checkWriteReview(User user,Cafe cafe){
-        visitService.findByUserAndCafe(user,cafe);
-    }
-    public void createReview(SimpleReviewDto reviewDto) {
-        User user = userService.findUserByUid(reviewDto.getUid());
-        Cafe cafe = cafeService.findCafeByCafeName(reviewDto.getCafeName());
-        Visit visit = visitService.findByUserAndCafe(user,cafe);
+    public void writeReview(SimpleReviewDto reviewDto, User user, Cafe cafe){
         Review review = Review.builder()
                 .numOfStar(reviewDto.getNumOfStar())
                 .who(reviewDto.getWho())
@@ -42,6 +38,20 @@ public class ReviewIntegrationServiceImpl implements ReviewIntegrationService {
                 .cafe(cafe)
                 .build();
         reviewService.createReview(review);
+    }
+
+    public void createReview(SimpleReviewDto reviewDto) {
+        // 리뷰 작성 가능 여부 체크
+        User user = userService.findUserByUid(reviewDto.getUid());
+        Cafe cafe = cafeService.findCafeByCafeName(reviewDto.getCafeName());
+        Visit visit = visitService.findByUserAndCafe(user,cafe);
+        if(!visit.isWriteReview()){
+            throw new ReviewWriteException("리뷰를 작성할 수 없습니다.");
+        }
+        // 리뷰 작성 및 권한 업데이트
+        visit.setWriteReview(false);
+        writeReview(reviewDto,user,cafe);
+        visitService.createVisit(visit);
     }
 
     public List<ComplexReviewDto> findReviewsByUser(String uid){

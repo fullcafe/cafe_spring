@@ -3,13 +3,16 @@ package com.example.fullCafe_spring_maven.service.review;
 import com.example.fullCafe_spring_maven.model.Cafe;
 import com.example.fullCafe_spring_maven.model.Review;
 import com.example.fullCafe_spring_maven.model.User;
+import com.example.fullCafe_spring_maven.model.Visit;
 import com.example.fullCafe_spring_maven.model.dto.cafe.SimpleCafeDto;
 import com.example.fullCafe_spring_maven.model.dto.review.ComplexReviewDto;
 import com.example.fullCafe_spring_maven.model.dto.review.SimpleReviewDto;
+import com.example.fullCafe_spring_maven.model.key.VisitId;
 import com.example.fullCafe_spring_maven.service.cafe.CafeNotFoundException;
 import com.example.fullCafe_spring_maven.service.cafe.CafeService;
 import com.example.fullCafe_spring_maven.service.user.UserNotFoundException;
 import com.example.fullCafe_spring_maven.service.user.UserService;
+import com.example.fullCafe_spring_maven.service.visit.VisitNotFoundException;
 import com.example.fullCafe_spring_maven.service.visit.VisitService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -51,6 +54,20 @@ class ReviewIntegrationServiceImplTest {
             .address("address")
             .phone("12345")
             .build();
+
+    private final VisitId visitId = VisitId.builder()
+            .uid(user.getUid())
+            .cafeName(cafe.getName())
+            .build();
+    private final Visit visit = Visit.builder()
+            .visitId(visitId)
+            .count(1)
+            .writeReview(true)
+            .recent(LocalDateTime.now())
+            .user(user)
+            .cafe(cafe)
+            .build();
+
     private final Review review = Review.builder()
             .numOfStar(3)
             .who(List.of("누구랑"))
@@ -69,35 +86,21 @@ class ReviewIntegrationServiceImplTest {
         );
     }
 
-    void checkWriteReview(){
-        // visit를 들고와서 체크 여부 확인
-    }
-
     @Test
     @DisplayName("리뷰 통합 생성 - 서비스")
     void createReview() {
         //given
         SimpleReviewDto reviewDto = new SimpleReviewDto(review);
         Mockito.when(userService.findUserByUid(user.getUid())).thenReturn(user);
-        Mockito.when(userService.findUserByUid(Mockito.argThat(uid -> !uid.equals(user.getUid()))))
-                .thenThrow(new UserNotFoundException("유저를 찾을 수 없음"));
         Mockito.when(cafeService.findCafeByCafeName(cafe.getName())).thenReturn(cafe);
-        Mockito.when(cafeService.findCafeByCafeName(Mockito.argThat(name -> !name.equals(cafe.getName()))))
-                .thenThrow(new CafeNotFoundException("카페를 찾을 수 없음"));
+        Mockito.when(visitService.findByUserAndCafe(user,cafe)).thenReturn(visit);
         // 제대로 리뷰 만듦
         reviewIntegrationService.createReview(reviewDto);
         verify(reviewService,times(1)).createReview(review);
-        // 유저 못들고옴
-        SimpleReviewDto reviewDto1 = new SimpleReviewDto(review);
-        reviewDto1.setUid("이상한 유저 값");
-        assertThrows(UserNotFoundException.class,()->{
-            reviewIntegrationService.createReview(reviewDto1);
-        });
-        // 카페 못들고옴
-        SimpleReviewDto reviewDto2 = new SimpleReviewDto(review);
-        reviewDto2.setCafeName("이상한 카페 이름");
-        assertThrows(CafeNotFoundException.class,()->{
-            reviewIntegrationService.createReview(reviewDto2);
+        // 리뷰 작성 권한 없을 시 예외
+        visit.setWriteReview(false);
+        assertThrows(ReviewWriteException.class,()->{
+            reviewIntegrationService.createReview(reviewDto);
         });
     }
 
@@ -161,7 +164,4 @@ class ReviewIntegrationServiceImplTest {
 
 }
 /*
- 리뷰 작성하기 전 작성 가능한지 여부 체크
- (작성
- 작성후 visit 업데이트) <- 동일 트랜잭션
  */

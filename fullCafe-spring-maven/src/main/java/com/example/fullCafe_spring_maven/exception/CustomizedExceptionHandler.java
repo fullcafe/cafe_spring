@@ -1,6 +1,7 @@
 package com.example.fullCafe_spring_maven.exception;
 
 import com.example.fullCafe_spring_maven.service.cafe.CafeNotFoundException;
+import com.example.fullCafe_spring_maven.service.review.ReviewWriteException;
 import com.example.fullCafe_spring_maven.service.user.UserNotFoundException;
 import com.example.fullCafe_spring_maven.service.visit.VisitNotFoundException;
 import org.springframework.http.HttpHeaders;
@@ -30,6 +31,13 @@ public class CustomizedExceptionHandler extends ResponseEntityExceptionHandler {
         ErrorDetails details = new ErrorDetails(ex.getMessage(),request.getDescription(false),
                 LocalDateTime.now());
         return new ResponseEntity<ErrorDetails>(details, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler({ReviewWriteException.class})
+    public ResponseEntity<ErrorDetails> handleReviewException(Exception ex, WebRequest request){
+        ErrorDetails details = new ErrorDetails(ex.getMessage(),request.getDescription(false),
+                LocalDateTime.now());
+        return new ResponseEntity<ErrorDetails>(details, HttpStatus.UNAUTHORIZED);
     }
 
     @Override
