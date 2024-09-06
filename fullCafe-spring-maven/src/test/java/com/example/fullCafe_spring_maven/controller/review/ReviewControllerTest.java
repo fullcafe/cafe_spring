@@ -7,6 +7,7 @@ import com.example.fullCafe_spring_maven.model.dto.review.SimpleReviewDto;
 import com.example.fullCafe_spring_maven.security.SpringSecurityConfigurationTest;
 import com.example.fullCafe_spring_maven.service.cafe.CafeNotFoundException;
 import com.example.fullCafe_spring_maven.service.review.ReviewIntegrationService;
+import com.example.fullCafe_spring_maven.service.review.ReviewWriteException;
 import com.example.fullCafe_spring_maven.service.user.UserNotFoundException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
@@ -54,12 +55,21 @@ class ReviewControllerTest {
     @DisplayName("리뷰 생성 - 컨트롤러")
     void createReview() throws Exception {
         // given uid, cafe 정보가 잘못되면 예외 반환
+        SimpleReviewDto dto = new SimpleReviewDto(review);
+        dto.setUid("uid1"); dto.setCafeName("cafe1");
         Mockito.doThrow(new UserNotFoundException("유저를 찾을 수 없습니다"))
                 .when(reviewIntegrationService)
-                .createReview(Mockito.argThat(arg -> !arg.getUid().equals("uid")));
+                .createReview(Mockito.argThat(
+                        arg -> !arg.getUid().equals("uid") && !arg.getUid().equals("uid1")
+                ));
         Mockito.doThrow(new CafeNotFoundException("카페를 찾을 수 없습니다"))
                 .when(reviewIntegrationService)
-                .createReview(Mockito.argThat(arg -> !arg.getCafeName().equals("cafe")));
+                .createReview(Mockito.argThat(
+                        arg -> !arg.getCafeName().equals("cafe") && !arg.getCafeName().equals("cafe1")
+                ));
+        Mockito.doThrow(new ReviewWriteException("권한 없음"))
+                .when(reviewIntegrationService)
+                .createReview(dto);
         // 성공 uid : uid, cafe : cafe
         SimpleReviewDto reviewDto = new SimpleReviewDto(review);
         reviewDto.setCafeName("cafe"); reviewDto.setUid("uid");
@@ -96,6 +106,13 @@ class ReviewControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(content3))
                 .andExpect(status().isNotFound());
+        // 권한 없음
+        String content4 = mapper.writeValueAsString(dto);
+        mvc.perform(post("/review")
+                        .with(SecurityMockMvcRequestPostProcessors.authentication(authentication))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(content4))
+                .andExpect(status().isUnauthorized());
     }
 
     @Test
