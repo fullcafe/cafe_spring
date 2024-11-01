@@ -25,7 +25,7 @@ public class VisitIntegrationServiceImpl implements VisitIntegrationService{
 
     public void createVisit(SimpleVisitDto visitDto) {
         User user = userService.findUserByUid(visitDto.getUid());
-        Cafe cafe = cafeService.findCafeByCafeName(visitDto.getCafeName());
+        Cafe cafe = cafeService.findCafeByName(visitDto.getCafeName());
         VisitId visitId = VisitId.builder()
                 .uid(user.getUid())
                 .cafeName(cafe.getName())

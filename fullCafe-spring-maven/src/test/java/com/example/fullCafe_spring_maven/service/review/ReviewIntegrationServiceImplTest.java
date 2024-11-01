@@ -92,7 +92,7 @@ class ReviewIntegrationServiceImplTest {
         //given
         SimpleReviewDto reviewDto = new SimpleReviewDto(review);
         Mockito.when(userService.findUserByUid(user.getUid())).thenReturn(user);
-        Mockito.when(cafeService.findCafeByCafeName(cafe.getName())).thenReturn(cafe);
+        Mockito.when(cafeService.findCafeByName(cafe.getName())).thenReturn(cafe);
         Mockito.when(visitService.findByUserAndCafe(user,cafe)).thenReturn(visit);
         // 제대로 리뷰 만듦
         reviewIntegrationService.createReview(reviewDto);
@@ -134,8 +134,8 @@ class ReviewIntegrationServiceImplTest {
     @DisplayName("카페로 부터 리뷰 조회 - 서비스")
     void findReviewByCafe(){
         // given
-        Mockito.when(cafeService.findCafeByCafeName(cafe.getName())).thenReturn(cafe);
-        Mockito.when(cafeService.findCafeByCafeName(Mockito.argThat(arg-> !arg.equals(cafe.getName()))))
+        Mockito.when(cafeService.findCafeByName(cafe.getName())).thenReturn(cafe);
+        Mockito.when(cafeService.findCafeByName(Mockito.argThat(arg-> !arg.equals(cafe.getName()))))
                 .thenThrow(new CafeNotFoundException("카페를 찾을수 없음"));
 
         // 카페 못들고옴(not found)
