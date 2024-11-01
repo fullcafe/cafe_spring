@@ -38,11 +38,11 @@ class CafeServiceImplTest {
         Optional<Cafe> optionalCafe = Optional.ofNullable(cafe);
         Mockito.when(cafeRepository.findById(cafe.getName())).thenReturn(optionalCafe);
         // 카페가 잘 존재
-        Cafe cafe1 = cafeService.findCafeByCafeName(cafe.getName());
+        Cafe cafe1 = cafeService.findCafeByName(cafe.getName());
         assertEquals(cafe1,cafe);
         // 카페가 없으면 예외 발생
         assertThrows(CafeNotFoundException.class,()->{
-            cafeService.findCafeByCafeName("쓰레기 값");
+            cafeService.findCafeByName("쓰레기 값");
         });
     }
 }

@@ -43,7 +43,7 @@ public class ReviewIntegrationServiceImpl implements ReviewIntegrationService {
     public void createReview(SimpleReviewDto reviewDto) {
         // 리뷰 작성 가능 여부 체크
         User user = userService.findUserByUid(reviewDto.getUid());
-        Cafe cafe = cafeService.findCafeByCafeName(reviewDto.getCafeName());
+        Cafe cafe = cafeService.findCafeByName(reviewDto.getCafeName());
         Visit visit = visitService.findByUserAndCafe(user,cafe);
         if(!visit.isWriteReview()){
             throw new ReviewWriteException("리뷰를 작성할 수 없습니다.");
@@ -75,7 +75,7 @@ public class ReviewIntegrationServiceImpl implements ReviewIntegrationService {
     }
 
     public List<ComplexReviewDto> findReviewsByCafe(String cafeName){
-        Cafe cafe = cafeService.findCafeByCafeName(cafeName);
+        Cafe cafe = cafeService.findCafeByName(cafeName);
         List<Review> reviews = cafe.getReviews();
         List<ComplexReviewDto> reviewDtos = new ArrayList<ComplexReviewDto>();
         if(reviews != null){

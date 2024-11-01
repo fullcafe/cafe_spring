@@ -75,8 +75,8 @@ class VisitIntegrationServiceImplTest {
         Mockito.when(userService.findUserByUid(user.getUid())).thenReturn(user);
         Mockito.when(userService.findUserByUid(Mockito.argThat(arg->!arg.equals(user.getUid()))))
                 .thenThrow(new UserNotFoundException("유저 없음"));
-        Mockito.when(cafeService.findCafeByCafeName(cafe.getName())).thenReturn(cafe);
-        Mockito.when(cafeService.findCafeByCafeName(Mockito.argThat(arg->!arg.equals(cafe.getName()))))
+        Mockito.when(cafeService.findCafeByName(cafe.getName())).thenReturn(cafe);
+        Mockito.when(cafeService.findCafeByName(Mockito.argThat(arg->!arg.equals(cafe.getName()))))
                 .thenThrow(new CafeNotFoundException("카페 없음"));
         // 유저 not found
         SimpleVisitDto visitDto = new SimpleVisitDto(visit);
