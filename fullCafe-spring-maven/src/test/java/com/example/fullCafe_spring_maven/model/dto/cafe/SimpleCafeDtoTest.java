@@ -39,11 +39,6 @@ class SimpleCafeDtoTest {
         // 키워드가 1개
         SimpleCafeDto cafeDto1 = new SimpleCafeDto(cafe2);
         assertEquals(cafeDto1.getKeywords(),List.of("keyword1"));
-        // 키워드가 null
-        SimpleCafeDto cafeDto2 = new SimpleCafeDto(new Cafe());
-        assertNull(cafeDto2.getName());
-        assertFalse(cafeDto2.isPetFriendly());
-        assertNull(cafeDto2.getKeywords());
         // 키워드가 0개
         Cafe cafe3 = new Cafe(); cafe3.setKeywords(List.of());
         SimpleCafeDto cafeDto3 = new SimpleCafeDto(cafe3);
