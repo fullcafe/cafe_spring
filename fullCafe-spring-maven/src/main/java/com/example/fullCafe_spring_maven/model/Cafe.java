@@ -43,7 +43,7 @@ public class Cafe {
     @JsonManagedReference // 순환 참조 방지 설정
     private List<CafeKeyword> keywords = new ArrayList<>();
 
-    @OneToMany(mappedBy = "cafe", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "cafe", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Review> reviews = new ArrayList<>();
 
     @OneToMany(mappedBy = "cafe", cascade = CascadeType.ALL, orphanRemoval = true)
