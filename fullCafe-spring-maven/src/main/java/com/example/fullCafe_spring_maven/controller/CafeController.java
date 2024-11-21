@@ -11,14 +11,13 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/cafes")
-@CrossOrigin(origins = "http://localhost:63342") // 클라이언트가 실행되는 주소
 public class CafeController {
 
     @Autowired
     private CafeService cafeService;
 
     @GetMapping("/search")
-    public ResponseEntity<List<Cafe>> searchCafes(
+    public List<Cafe> searchCafes(
             @RequestParam(required = false) String name,
             @RequestParam(required = false) Boolean wifi,
             @RequestParam(required = false) Boolean petFriendly,
@@ -35,25 +34,6 @@ public class CafeController {
 
         List<Cafe> cafes = cafeService.searchCafesByFilters(
                 name, wifi, petFriendly, takeout, groupFriendly, parking, easyPayment, delivery, keywordList);
-
-        return ResponseEntity.ok(cafes);
+        return cafes;
     }
-
-    // 평점순 정렬된 카페 리스트 반환하는 엔드포인트
-//    @GetMapping("/rating")
-//    public ResponseEntity<List<Cafe>> getCafesSortedByRating(
-//            @RequestParam(required = false) String name,
-//            @RequestParam(required = false) Boolean wifi,
-//            @RequestParam(required = false) Boolean petFriendly,
-//            @RequestParam(required = false) Boolean takeout,
-//            @RequestParam(required = false) Boolean groupFriendly,
-//            @RequestParam(required = false) Boolean parking,
-//            @RequestParam(required = false) Boolean easyPayment,
-//            @RequestParam(required = false) Boolean delivery) {
-//
-//        List<Cafe> cafes = cafeService.getCafesSortedByRating(
-//                name, wifi, petFriendly, takeout, groupFriendly, parking, easyPayment, delivery);
-//
-//        return ResponseEntity.ok(cafes);
-//    }
 }

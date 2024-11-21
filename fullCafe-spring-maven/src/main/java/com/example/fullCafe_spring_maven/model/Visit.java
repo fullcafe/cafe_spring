@@ -1,6 +1,7 @@
 package com.example.fullCafe_spring_maven.model;
 
 import com.example.fullCafe_spring_maven.model.key.VisitId;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -22,10 +23,12 @@ public class Visit {
     private LocalDateTime recent; // 최근 방문 시간
     @ManyToOne(fetch = FetchType.EAGER)
     @MapsId("uid")
+    @JsonBackReference
     @JoinColumn(name = "uid")
     private User user;
     @ManyToOne(fetch = FetchType.EAGER)
     @MapsId("cafeName")
+    @JsonBackReference
     @JoinColumn(name = "cafe_name")
     private Cafe cafe;
 
