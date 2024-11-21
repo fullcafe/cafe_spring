@@ -9,7 +9,4 @@ public interface CafeService {
     List<Cafe> searchCafesByFilters(String name, Boolean wifi, Boolean petFriendly, Boolean takeout,
                                            Boolean groupFriendly, Boolean parking, Boolean easyPayment,
                                            Boolean delivery, List<String> keywords);
-//    List<Cafe> getCafesSortedByRating(String name, Boolean wifi, Boolean petFriendly, Boolean takeout,
-//                                      Boolean groupFriendly, Boolean parking, Boolean easyPayment,
-//                                      Boolean delivery);
 }

@@ -29,18 +29,9 @@ public class CafeServiceImpl implements CafeService {
                                            Boolean groupFriendly, Boolean parking, Boolean easyPayment,
                                            Boolean delivery, List<String> keywords) {
         long keywordCount = (keywords != null) ? keywords.size() : 0; // 키워드 수 계산
-
         return cafeRepository.findByFiltersWithKeywordPriority(
                 name, wifi, petFriendly, takeout, groupFriendly,
                 parking, easyPayment, delivery, keywords, keywordCount);
     }
 
-    // 평점순 정렬된 카페 목록을 필터 조건에 따라 반환하는 메서드
-//    public List<Cafe> getCafesSortedByRating(String name, Boolean wifi, Boolean petFriendly, Boolean takeout,
-//                                             Boolean groupFriendly, Boolean parking, Boolean easyPayment,
-//                                             Boolean delivery) {
-//        return cafeRepository.findByFiltersWithRatingOrder(
-//                name, wifi, petFriendly, takeout, groupFriendly,
-//                parking, easyPayment, delivery);
-//    }
 }

@@ -30,27 +30,20 @@ public class Cafe {
     private boolean parking;
     private boolean delivery;
 
-//    @Column(precision = 2, scale = 1)
-//    private Double rating;
-
-//    @Column
-//    private Double latitude;
-//
-//    @Column
-//    private Double longitude;
-
     @OneToMany(mappedBy = "cafe", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JsonManagedReference // 순환 참조 방지 설정
-    private List<CafeKeyword> keywords = new ArrayList<>();
+    private List<CafeKeyword> keywords;
 
     @OneToMany(mappedBy = "cafe", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Review> reviews = new ArrayList<>();
+    @JsonManagedReference
+    private List<Review> reviews;
 
     @OneToMany(mappedBy = "cafe", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Bookmark> bookmarks = new ArrayList<>();
+    private List<Bookmark> bookmarks;
 
     @OneToMany(mappedBy = "cafe", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Visit> visits = new ArrayList<>();
+    @JsonManagedReference
+    private List<Visit> visits;
 
     @Override
     public String toString() {

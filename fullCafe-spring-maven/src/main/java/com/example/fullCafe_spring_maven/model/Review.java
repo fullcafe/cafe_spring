@@ -1,5 +1,6 @@
 package com.example.fullCafe_spring_maven.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -30,9 +31,11 @@ public class Review {
     @Column(nullable = false)
     private LocalDateTime timestamp;
     @ManyToOne(fetch = FetchType.EAGER)
+    @JsonBackReference
     @JoinColumn(name = "uid", nullable = false)
     private User user;
     @ManyToOne(fetch = FetchType.EAGER)
+    @JsonBackReference
     @JoinColumn(name = "cafeName", nullable = false)
     private Cafe cafe;
 
