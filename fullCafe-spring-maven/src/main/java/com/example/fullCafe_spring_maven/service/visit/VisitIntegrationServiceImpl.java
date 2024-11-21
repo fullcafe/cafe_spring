@@ -26,19 +26,27 @@ public class VisitIntegrationServiceImpl implements VisitIntegrationService{
     public void createVisit(SimpleVisitDto visitDto) {
         User user = userService.findUserByUid(visitDto.getUid());
         Cafe cafe = cafeService.findCafeByName(visitDto.getCafeName());
-        VisitId visitId = VisitId.builder()
-                .uid(user.getUid())
-                .cafeName(cafe.getName())
-                .build();
-        Visit visit = Visit.builder()
-                .visitId(visitId)
-                .count(visitDto.getCount())
-                .writeReview(visitDto.isWriteReview())
-                .recent(visitDto.getRecent())
-                .user(user)
-                .cafe(cafe)
-                .build();
-        visitService.createVisit(visit);
+        try{
+            // 기존 방문 기록이 있을 경우
+            Visit visit = visitService.findByUserAndCafe(user,cafe);
+            visit.setCount(visit.getCount() + 1);
+            visitService.createVisit(visit);
+        } catch (VisitNotFoundException e){
+            // 기존 방문 기록이 없을 경우
+            VisitId visitId = VisitId.builder()
+                    .uid(user.getUid())
+                    .cafeName(cafe.getName())
+                    .build();
+            Visit visit = Visit.builder()
+                    .visitId(visitId)
+                    .count(1)
+                    .writeReview(visitDto.isWriteReview())
+                    .recent(visitDto.getRecent())
+                    .user(user)
+                    .cafe(cafe)
+                    .build();
+            visitService.createVisit(visit);
+        }
     }
 
     public List<ComplexVisitDto> convertVisitToComplexDto(List<Visit> visits,String uid,String username){
