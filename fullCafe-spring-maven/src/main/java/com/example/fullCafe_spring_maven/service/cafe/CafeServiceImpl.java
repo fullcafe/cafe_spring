@@ -24,7 +24,7 @@ public class CafeServiceImpl implements CafeService {
         return cafe.get();
     }
     @Override
-    public List<Cafe> findCafesByName(String name) {
+    public Cafe findCafesByName(String name) {
         return cafeRepository.findByNameContainingIgnoreCase(name);
     }
 

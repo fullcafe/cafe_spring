@@ -37,5 +37,5 @@ public interface CafeRepository extends JpaRepository<Cafe, String> {
 
 
 
-        List<Cafe> findByNameContainingIgnoreCase(String name);
+        Cafe findByNameContainingIgnoreCase(String name);
     }

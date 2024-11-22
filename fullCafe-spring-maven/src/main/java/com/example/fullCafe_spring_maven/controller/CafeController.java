@@ -36,9 +36,10 @@ public class CafeController {
                 name, wifi, petFriendly, takeout, groupFriendly, parking, easyPayment, delivery, keywordList);
         return cafes;
     }
-    @GetMapping("/search/by-name")
-    public ResponseEntity<List<Cafe>> searchCafesByName(@RequestParam String name) {
-        List<Cafe> cafes = cafeService.findCafesByName(name);
-        return ResponseEntity.ok(cafes);
-    }
+
+    @GetMapping("/{cafeName}")
+    public ResponseEntity<Cafe> getCafeByName(@PathVariable String cafeName) {
+        Cafe cafe = cafeService.findCafesByName(cafeName);
+        return ResponseEntity.ok(cafe);
+        }
 }
