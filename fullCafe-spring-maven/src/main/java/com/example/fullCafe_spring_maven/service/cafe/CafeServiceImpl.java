@@ -23,6 +23,11 @@ public class CafeServiceImpl implements CafeService {
         }
         return cafe.get();
     }
+    @Override
+    public List<Cafe> findCafesByName(String name) {
+        return cafeRepository.findByNameContainingIgnoreCase(name);
+    }
+
 
     // 필터 조건을 반영한 검색 메서드
     public List<Cafe> searchCafesByFilters(String name, Boolean wifi, Boolean petFriendly, Boolean takeout,
@@ -33,5 +38,6 @@ public class CafeServiceImpl implements CafeService {
                 name, wifi, petFriendly, takeout, groupFriendly,
                 parking, easyPayment, delivery, keywords, keywordCount);
     }
+
 
 }

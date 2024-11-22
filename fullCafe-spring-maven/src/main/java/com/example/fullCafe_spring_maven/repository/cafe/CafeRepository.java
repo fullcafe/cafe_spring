@@ -4,6 +4,7 @@ import com.example.fullCafe_spring_maven.model.Cafe;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -34,24 +35,7 @@ public interface CafeRepository extends JpaRepository<Cafe, String> {
                                                 @Param("keywords") List<String> keywords,
                                                 @Param("keywordCount") long keywordCount);
 
-    // 평점순 정렬 메서드
-//    @Query("SELECT c FROM Cafe c " +
-//            "WHERE (:name IS NULL OR c.name LIKE %:name%) " +
-//            "AND (:wifi IS NULL OR c.wifi = :wifi) " +
-//            "AND (:petFriendly IS NULL OR c.petFriendly = :petFriendly) " +
-//            "AND (:takeout IS NULL OR c.takeout = :takeout) " +
-//            "AND (:groupFriendly IS NULL OR c.groupFriendly = :groupFriendly) " +
-//            "AND (:parking IS NULL OR c.parking = :parking) " +
-//            "AND (:easyPayment IS NULL OR c.easyPayment = :easyPayment) " +
-//            "AND (:delivery IS NULL OR c.delivery = :delivery) " +
-//            "ORDER BY c.rating DESC")
-//    List<Cafe> findByFiltersWithRatingOrder(@Param("name") String name,
-//                                            @Param("wifi") Boolean wifi,
-//                                            @Param("petFriendly") Boolean petFriendly,
-//                                            @Param("takeout") Boolean takeout,
-//                                            @Param("groupFriendly") Boolean groupFriendly,
-//                                            @Param("parking") Boolean parking,
-//                                            @Param("easyPayment") Boolean easyPayment,
-//                                            @Param("delivery") Boolean delivery);
-//}
-}
+
+
+        List<Cafe> findByNameContainingIgnoreCase(String name);
+    }

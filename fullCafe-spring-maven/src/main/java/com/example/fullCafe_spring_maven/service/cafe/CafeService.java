@@ -6,6 +6,8 @@ import java.util.List;
 
 public interface CafeService {
     Cafe findCafeByName(String name);
+    public List<Cafe> findCafesByName(String name);
+
     List<Cafe> searchCafesByFilters(String name, Boolean wifi, Boolean petFriendly, Boolean takeout,
                                            Boolean groupFriendly, Boolean parking, Boolean easyPayment,
                                            Boolean delivery, List<String> keywords);
