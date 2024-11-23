@@ -29,7 +29,9 @@ public class VisitIntegrationServiceImpl implements VisitIntegrationService{
         try{
             // 기존 방문 기록이 있을 경우
             Visit visit = visitService.findByUserAndCafe(user,cafe);
+            visit.setWriteReview(visitDto.isWriteReview());
             visit.setCount(visit.getCount() + 1);
+            visit.setRecent(visitDto.getRecent());
             visitService.createVisit(visit);
         } catch (VisitNotFoundException e){
             // 기존 방문 기록이 없을 경우
