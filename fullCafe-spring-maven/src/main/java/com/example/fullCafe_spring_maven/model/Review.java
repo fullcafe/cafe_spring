@@ -31,7 +31,6 @@ public class Review {
     @Column(nullable = false)
     private LocalDateTime timestamp;
     @ManyToOne(fetch = FetchType.EAGER)
-    @JsonBackReference
     @JoinColumn(name = "uid", nullable = false)
     private User user;
     @ManyToOne(fetch = FetchType.EAGER)

@@ -1,5 +1,6 @@
 package com.example.fullCafe_spring_maven.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
@@ -28,12 +29,13 @@ public class User {
     @Column(nullable = false)
     private int characterIdx;
     @OneToMany(mappedBy = "user",fetch = FetchType.LAZY)
-    @JsonManagedReference
+    @JsonIgnore
     private List<Review> reviews;
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<Bookmark> bookmarks = new ArrayList<>();
     @OneToMany(mappedBy = "user",fetch = FetchType.LAZY)
-    @JsonManagedReference
+    @JsonIgnore
     private List<Visit> visits;
     @Override
     public String toString() {
